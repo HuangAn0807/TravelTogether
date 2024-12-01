@@ -6,12 +6,11 @@ const active = ref('home')
 <template>
     <div class="page">
         <RouterView/>
-        <van-tabbar v-model="active" fixed>
+        <van-tabbar v-model="active" fixed class="footer">
             <van-tabbar-item name="home" icon="home-o" :to="`/home`">首页</van-tabbar-item>
             <van-uploader>
                 <van-button icon="plus" type="text" class="uploader"></van-button>
             </van-uploader>
-            <!-- <van-tabbar-item name="message" icon="chat-o" badge="1" :to="`/message`">消息</van-tabbar-item> -->
             <van-tabbar-item name="user" icon="contact" :to="`/user`">我</van-tabbar-item>
         </van-tabbar>
     </div>
@@ -20,12 +19,15 @@ const active = ref('home')
 <style scoped lang="scss" >
 .page{
     height: 100vh;
-    padding: 10px;
+    // padding: 10px;
     .uploader{
         border: none;
         color: red;
         background-color: #fff;
         font-size: 1.5em;
+    }
+    .footer{
+       
     }
 }
 </style>
