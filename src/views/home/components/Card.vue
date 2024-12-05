@@ -17,10 +17,7 @@ const bodyWidth = ref(document.body.clientWidth)
 // 最小值的下标
 const minIndex = ref(0)
 window.onresize = () => {
-    bodyWidth.value = document.body.clientWidth;
-    console.log(123);
-    
-    setCardPosotion()
+    location.reload()
 }
 // 获取屏幕宽度计算出每个item的宽度
 const cardWidth = computed(() => (bodyWidth.value-30)/2)
@@ -42,7 +39,7 @@ const setCardPosotion = () => {
         arr[minIndex.value] += card.value!.clientHeight+10 || 0;
     }  
 onMounted(() => {
-    setCardPosotion()
+    setCardPosotion()  
 })
 </script>
 <template>

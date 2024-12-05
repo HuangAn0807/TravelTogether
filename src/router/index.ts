@@ -23,6 +23,10 @@ const router = createRouter({
           ],
       },
       {
+          path: '/uploader',
+          component: () => import('@/views/upLoader/index.vue'),
+      },
+      {
           path: '/login',
           component: () => import('@/views/login/index.vue'),
       },
