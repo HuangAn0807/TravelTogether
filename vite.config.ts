@@ -10,6 +10,7 @@ import { VantResolver } from '@vant/auto-import-resolver';
 // https://vite.dev/config/
 export default defineConfig({
   server: {
+    host: '0.0.0.0', // 开发服务器的主机名
     port: 3000, // 开发服务器的端口号
     open: true, // 自动打开浏览器窗口
     proxy: {

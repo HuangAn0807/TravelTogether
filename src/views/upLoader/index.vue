@@ -2,7 +2,8 @@
 import type { UploaderFileListItem } from 'vant';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import request from '@/utils/request';
+import Ditu from '@/views/upLoader/Ditu.vue';
+import Position from './Position.vue';
 type FormT={
     title:string,
     content:string,
@@ -18,14 +19,6 @@ const form= ref<FormT>({
     const goBack = () => {
         router.go(-1)
     }
-  const res = async () => {
-    const res = await request({
-        url: 'https://restapi.amap.com/v5/place/text?key=7527e8d695b957eed8793bb60651869a&keywords=南山区',
-        method: 'get',
-    })
-    console.log(res);
-}
-res()
 </script>
 <template>
   <div class="page-content">
@@ -56,7 +49,8 @@ res()
                     </van-cell-group>
                     
                 </van-form>
-               
+                <Ditu></Ditu>
+                <Position></Position>
             </div>
        </main>
 </div>

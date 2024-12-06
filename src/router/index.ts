@@ -42,6 +42,10 @@ const router = createRouter({
           path: '/404',
           component: () => import('@/views/error/Page404.vue'),
       },
+      {
+        path:'/location',
+        component: () => import('@/views/location/index.vue'),
+      }
   ],
 })
 
