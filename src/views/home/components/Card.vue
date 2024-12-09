@@ -1,5 +1,7 @@
 <script setup lang='ts' name=''>
 import {ref,onMounted,computed} from "vue";
+import { useRouter } from "vue-router";
+const router = useRouter()
 const {cardData,arr} = defineProps<{
   cardData: {
     id: number;
@@ -41,11 +43,19 @@ const setCardPosotion = () => {
 onMounted(() => {
     setCardPosotion()  
 })
+const toDetail = () => {
+    router.push({
+        path: '/detail',
+        query: {
+          id: cardData.id,
+        }
+      })
+}
 </script>
 <template>
-  <div class="card" ref="card" >
+  <div class="card" ref="card" @click="toDetail">
             <van-image
-            class="card-img"
+             class="card-img"
               fit="contain"
               :src="cardData.img" 
             >

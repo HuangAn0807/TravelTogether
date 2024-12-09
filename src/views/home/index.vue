@@ -1,8 +1,9 @@
 <script setup lang='ts' name='Home'>
 import { nextTick, onMounted, ref,watch, type Ref} from "vue";
 import Card from "./components/Card.vue";
-// tab栏标签切换
-const activeName = ref('index')
+import { useMenuStore } from "@/stores/menuStore";
+const {active,setActive} = useMenuStore()
+
 const waterfall = ref<HTMLDivElement>()
 const arr = ref<number[]>([0,0])
 const data  = ref([
@@ -87,25 +88,18 @@ const data  = ref([
     like: 1
   },
 ])
-// 给父元素设置高度
-watch(() =>data.value,() => {
-  nextTick(() => {
-    // waterfall.value!.style.height = Math.max(...arr.value) + 'px'
-  })
-},{deep:true})
 const num = ref(11)
-onMounted(() => {
-  console.log();
- 
-  
-});
-
 const loading = ref(false)
 const finished = ref(false)
-const loadMoreItems = () => {
-console.log(waterfall.value);
 
+const onChange = (val:any) => {
+  console.log(val); 
+  setActive(val)
+}
+const loadMoreItems = () => {
   setTimeout(() => {
+       // 加载状态结束
+       loading.value = false;
         for (let i = 0; i < 10; i++) {
           data.value.push({
             id: ++num.value,
@@ -116,9 +110,7 @@ console.log(waterfall.value);
             like: 1
           });
         }
-        // 加载状态结束
-        loading.value = false;
-
+        loading.value = true;
         // 数据全部加载完成
         if (data.value.length >= 40) {
           finished.value = true;
@@ -131,7 +123,6 @@ const error = ref(false)
 const onRefresh = () => {
       // 清空列表数据
       finished.value = false;
-
       // 重新加载数据
       // 将 loading 设置为 true，表示处于加载状态
       loading.value = true;
@@ -139,7 +130,7 @@ const onRefresh = () => {
     };
 </script>
 <template>
-  <van-tabs v-model:active="activeName" sticky swipeable animated >
+  <van-tabs v-model:active="active" @change="onChange" sticky swipeable animated >
     <van-tab title="关注" name="follow" class="tab">
     </van-tab>
     <van-tab title="发现" name="index" class="tab">
@@ -148,6 +139,7 @@ const onRefresh = () => {
           ref="waterfall"
            class="waterfall"
           v-model:loading="loading"
+          :immediate-check="false"
           v-model:error="error"
           error-text="请求失败，点击重新加载"
           :finished="finished"
