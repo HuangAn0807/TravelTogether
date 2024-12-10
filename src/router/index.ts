@@ -16,11 +16,11 @@ const router = createRouter({
                   path: '/user',
                   component: () => import('@/views/user/index.vue'),
               },
-              {
-                  path: '/message',
-                  component: () => import('@/views/message/index.vue'),
-              },
           ],
+      },
+      {
+          path: '/uploader',
+          component: () => import('@/views/upLoader/index.vue'),
       },
       {
           path: '/login',
@@ -37,6 +37,14 @@ const router = createRouter({
       {
           path: '/404',
           component: () => import('@/views/error/Page404.vue'),
+      },
+      {
+        path:'/location',
+        component: () => import('@/views/location/index.vue'),
+      },
+      {
+        path:'/detail',
+        component: () => import('@/views/detail/index.vue'),
       },
   ],
 })

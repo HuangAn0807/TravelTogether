@@ -1,5 +1,7 @@
 <script setup lang='ts' name=''>
 import {ref,onMounted,computed} from "vue";
+import { useRouter } from "vue-router";
+const router = useRouter()
 const {cardData,arr} = defineProps<{
   cardData: {
     id: number;
@@ -17,10 +19,7 @@ const bodyWidth = ref(document.body.clientWidth)
 // 最小值的下标
 const minIndex = ref(0)
 window.onresize = () => {
-    bodyWidth.value = document.body.clientWidth;
-    console.log(123);
-    
-    setCardPosotion()
+    location.reload()
 }
 // 获取屏幕宽度计算出每个item的宽度
 const cardWidth = computed(() => (bodyWidth.value-30)/2)
@@ -42,13 +41,21 @@ const setCardPosotion = () => {
         arr[minIndex.value] += card.value!.clientHeight+10 || 0;
     }  
 onMounted(() => {
-    setCardPosotion()
+    setCardPosotion()  
 })
+const toDetail = () => {
+    router.push({
+        path: '/detail',
+        query: {
+          id: cardData.id,
+        }
+      })
+}
 </script>
 <template>
-  <div class="card" ref="card" >
+  <div class="card" ref="card" @click="toDetail">
             <van-image
-            class="card-img"
+             class="card-img"
               fit="contain"
               :src="cardData.img" 
             >
