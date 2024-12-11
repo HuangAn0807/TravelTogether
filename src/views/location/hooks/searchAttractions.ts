@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import axios from 'axios'
-import type {ScenicSpotInfo} from '../type.ts'
+import type {ScenicSpotInfo} from '../type'
 /**
  * 
  * @returns 返回景点信息数组，以及搜索景点的方法，以及将下滑获取的景点信息添加到数组中的方法
@@ -26,10 +26,12 @@ export default function useSearchAttractions() {
             if (data.status === '1' && data.info === 'OK') {
               if(pois.value.length===0){
                 pois.value = data.pois;
+              
               }else{
                 pushPois(data.pois)
               }
-              
+              console.log(pois.value);
+                
             } else {
               console.error('搜索失败：', data.info);
             }
@@ -44,7 +46,6 @@ export default function useSearchAttractions() {
      */
     const pushPois = (poi:ScenicSpotInfo[]) => {
       poi.forEach(element => {
-        console.log(element);
         pois.value.push(element)
       });
        

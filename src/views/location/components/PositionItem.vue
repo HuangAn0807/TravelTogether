@@ -1,38 +1,46 @@
 <script setup lang='ts' name='PositionItem'>
-import type {ScenicSpotInfo} from '../type.ts'
-import {useRouter} from 'vue-router'
- defineProps<{
-    scenicSpotInfo:ScenicSpotInfo
- }>()
-const router = useRouter()
-const toUploader = () => {
-    // router.push({path:'/uploader',query:{scenicSpotInfo:scenicSpotInfo.value}})
-}
+import type { ScenicSpotInfo } from '../type'
+import { RouterLink} from 'vue-router'
+const { scenicSpotInfo } = defineProps<{
+    scenicSpotInfo: ScenicSpotInfo
+}>()
 </script>
 <template>
-    <div class="item" @click="toUploader">
-        <div class="name">{{ scenicSpotInfo.name }}</div>
-        <div class="address">{{ scenicSpotInfo.address}}</div>
-    </div>
+    <RouterLink :to="{name:'uploader',query:scenicSpotInfo}">
+        <div class="item">
+            <div class="name">{{ scenicSpotInfo.name }}</div>
+            <div class="address">{{ scenicSpotInfo.address }}</div>
+        </div>
+    </RouterLink>
 </template>
 
 <style scoped lang='scss'>
- .item{
+a{
+    color: #000;
+}
+.item {
     width: 100%;
     height: 10%;
-    .name{
+
+    .name {
         line-height: 2em;
         font-size: 1.2em;
         font-weight: 700;
     }
-    .address{
+
+    .address {
         color: #8c8c8c;
     }
-    .name,.address{
+
+    .name,
+    .address {
         padding-left: 10px;
-        white-space: nowrap;       /* 禁止换行 */
-        overflow: hidden;          /* 隐藏溢出的内容 */
-        text-overflow: ellipsis;   /* 使用省略号表示溢出的文本 */
+        white-space: nowrap;
+        /* 禁止换行 */
+        overflow: hidden;
+        /* 隐藏溢出的内容 */
+        text-overflow: ellipsis;
+        /* 使用省略号表示溢出的文本 */
     }
- }
+}
 </style>
