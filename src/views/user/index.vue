@@ -47,7 +47,7 @@ const activeNote = ref(0)
             <div>获赞与收藏</div>
           </div>
           <div class="edit">
-              编辑资料
+            <RouterLink :to="{name:'editInfo'}">编辑资料</RouterLink>  
           </div>
        </div>
     </div>
@@ -116,6 +116,9 @@ const activeNote = ref(0)
       line-height: 2em;
       background-color:#736464 ;
       border-radius: 1em;
+      a{
+        color: #d2cecb;
+      }
     }
   }
 }

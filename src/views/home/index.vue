@@ -85,17 +85,14 @@ const data  = ref([
     like: 1
   },
 ])
-// watch(() => data.value,() => {
-//   document.querySelector('.waterfall')!.style.height = Math.max(...arr.value) + 'px'
-// },{
-//   deep:true,
-// })
 const num = ref(11)
 const loading = ref(false)
+let timer = 0
 const finished = ref(false)
 const active = ref('discover')
 const loadMoreItems = () => {
-  setTimeout(() => {
+  if(timer) clearTimeout(timer)
+  timer =  setTimeout(() => {
        // 加载状态结束
        loading.value = false;
         for (let i = 0; i < 10; i++) {
@@ -109,7 +106,7 @@ const loadMoreItems = () => {
           });
         }
         // 数据全部加载完成
-        if (data.value.length >= 40) {
+        if (data.value.length >=30) {
           finished.value = true;
         }
       }, 1000);

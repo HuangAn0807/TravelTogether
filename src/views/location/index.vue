@@ -4,7 +4,6 @@ import { useRouter } from "vue-router";
 import useCity from './hooks/getCity'
 import useSearchAttractions from "./hooks/searchAttractions";
 import PositionItem from "./components/PositionItem.vue";
-import { debounce } from "@/utils/throttleDebounce";
 // 获取路由实例
 const router = useRouter()
 // 定义搜索关键词
@@ -17,10 +16,20 @@ const loading = ref(false)
 const finished = ref(false)
 // 获取第一页城市景点列表
 const number = ref(1)
-// 获取城市信息
-const {cityInfo} = useCity()
-let time = 0
 const {pois,cityPoisCount,searchAttractions} = useSearchAttractions()
+// 获取城市信息
+const {cityInfo,getLocation} = useCity()
+getLocation()
+// 当城市信息发生变化时请求该城市的景点数据
+watch(cityInfo.value,(val) => {
+   if(val){
+    cityInfo.value = val 
+    searchAttractions(cityInfo.value.city)
+   }
+    
+},{deep:true})
+
+let time = 0
 // 搜索地点
 const onSearch = () => {
     // 初始化搜索页数
@@ -41,7 +50,7 @@ const onLoad = () => {
     time = setTimeout(() => {
         number.value++
         // 加载景点数据
-        searchAttractions(search.value??cityInfo.value.city,number.value)
+        searchAttractions(search.value||cityInfo.value.city,number.value)
         if(pois.value.length>=cityPoisCount.value){
             finished.value = true
         }  
@@ -54,7 +63,7 @@ const onRefresh = () => {
     finished.value = false
     // 重置加载完成
     loading.value = false
-    searchAttractions(search.value??cityInfo.value.city,number.value)
+    searchAttractions(search.value||cityInfo.value.city,number.value)
     // 重置加载中
     refreshing.value = false
     // 获取当前城市的景点信息
@@ -79,13 +88,14 @@ const onRefresh = () => {
     <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
         <van-list
         v-model:loading="loading"
+        loading-text="加载中..."
         :finished="finished"
         :immediate-check="false"
-        offset="300"
+        offset="400"
         finished-text="没有更多了"
         @load="onLoad"
         >
-            <PositionItem v-for="item in pois" :scenicSpotInfo="item"/>
+            <PositionItem v-if="pois" v-for="item in pois" :scenicSpotInfo="item"/>
         </van-list>
     </van-pull-refresh>
        

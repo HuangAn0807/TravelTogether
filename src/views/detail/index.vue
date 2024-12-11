@@ -115,8 +115,7 @@ const goBack = () => {
     z-index: 100;
     display: flex;
     justify-content: space-between;
-    padding:30px ;
-    padding-bottom: 20px;
+    padding:30px 30px 30px 10px ;
     align-items: center;
     height:8vw;
     width: 100%;

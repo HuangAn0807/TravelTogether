@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref,watch } from 'vue'
 import axios from 'axios'
 import type {ScenicSpotInfo} from '../type'
 /**
@@ -16,7 +16,7 @@ export default function useSearchAttractions() {
             keywords: city ,
             types: '旅游景点|公园广场|公园|动物园|植物园|水族馆|城市广场|公园内部设施|风景名胜|世界遗产|国家级景点|省级景点|纪念馆|寺庙道观|教堂|回教寺|海滩|观景点|红色景区',
             extensions: 'all',
-            page_size:'15',
+            page_size:'20',
             page_index:`${num}`
           })
           try {
@@ -26,12 +26,9 @@ export default function useSearchAttractions() {
             if (data.status === '1' && data.info === 'OK') {
               if(pois.value.length===0){
                 pois.value = data.pois;
-              
               }else{
                 pushPois(data.pois)
-              }
-              console.log(pois.value);
-                
+              }  
             } else {
               console.error('搜索失败：', data.info);
             }

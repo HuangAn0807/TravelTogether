@@ -17,6 +17,7 @@ const form = ref<FormT>({
 const router = useRouter()
 const route = useRoute()
 const locationInfo = route.query
+console.log(Object.keys(locationInfo));
 
 // 返回上一页
 const goBack = () => {
@@ -54,7 +55,7 @@ const onSelect = (val:{name:string,value:string}) => {
                     <van-cell-group >
                         <van-uploader v-model="form.fileList" :deletable="true" max-count="9" class="uploader" preview-size="25.8vw" />
                     </van-cell-group>
-                    <van-cell :title="Object.keys(locationInfo)?.length>0?locationInfo.name as string:'标记地点'" icon="location-o"  is-link to="/location"/>
+                    <van-cell :title="locationInfo.keys?.length>0?locationInfo.name as string:'标记地点'" icon="location-o"  is-link to="/location"/>
                     <van-cell :title="form.privacy==='1'?'公开可见':'仅自己可见'" icon="eye-o"  is-link @click="show = true" />
                 <van-action-sheet v-model:show="show" :actions="actions" @select="onSelect" />
 
