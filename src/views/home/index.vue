@@ -1,9 +1,6 @@
 <script setup lang='ts' name='Home'>
 import { nextTick, onMounted, ref,watch, type Ref} from "vue";
 import Card from "./components/Card.vue";
-import { useMenuStore } from "@/stores/menuStore";
-const {active,setActive} = useMenuStore()
-
 const waterfall = ref<HTMLDivElement>()
 const arr = ref<number[]>([0,0])
 const data  = ref([
@@ -90,14 +87,12 @@ const data  = ref([
 ])
 const num = ref(11)
 const loading = ref(false)
+let timer = 0
 const finished = ref(false)
-
-const onChange = (val:any) => {
-  console.log(val); 
-  setActive(val)
-}
+const active = ref('discover')
 const loadMoreItems = () => {
-  setTimeout(() => {
+  if(timer) clearTimeout(timer)
+  timer =  setTimeout(() => {
        // 加载状态结束
        loading.value = false;
         for (let i = 0; i < 10; i++) {
@@ -110,9 +105,8 @@ const loadMoreItems = () => {
             like: 1
           });
         }
-        loading.value = true;
         // 数据全部加载完成
-        if (data.value.length >= 40) {
+        if (data.value.length >=30) {
           finished.value = true;
         }
       }, 1000);
@@ -130,21 +124,21 @@ const onRefresh = () => {
     };
 </script>
 <template>
-  <van-tabs v-model:active="active" @change="onChange" sticky swipeable animated >
+  <van-tabs v-model:active="active" sticky swipeable animated >
     <van-tab title="关注" name="follow" class="tab">
     </van-tab>
-    <van-tab title="发现" name="index" class="tab">
+    <van-tab title="发现" name="discover" class="tab">
         <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
           <van-list
           ref="waterfall"
-           class="waterfall"
+          class="waterfall"
           v-model:loading="loading"
           :immediate-check="false"
           v-model:error="error"
           error-text="请求失败，点击重新加载"
           :finished="finished"
           @load="loadMoreItems"
-          :offset="100"
+          :offset="300"
         >
           <Card :id="`card${item.id}`" v-for="item in data" :cardData="item" :arr="arr" :key="item.id"  />
         </van-list>  
@@ -157,7 +151,7 @@ const onRefresh = () => {
 .tab{
   background-color: #f1f4f6;
 }
-.waterfall {
+::v-deep .van-list{
   font-size: 14px;
   position: relative;
   width: 100%;

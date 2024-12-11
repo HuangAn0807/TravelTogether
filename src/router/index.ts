@@ -10,24 +10,29 @@ const router = createRouter({
           children: [
               {
                   path: '/home',
+                  name: 'home',
                   component: () => import('@/views/home/index.vue'),
               },
               {
                   path: '/user',
+                  name: 'user',
                   component: () => import('@/views/user/index.vue'),
               },
           ],
       },
       {
           path: '/uploader',
+          name: 'uploader',
           component: () => import('@/views/upLoader/index.vue'),
       },
       {
           path: '/login',
+          name: 'login',
           component: () => import('@/views/login/index.vue'),
       },
       {
           path: '/register',
+          name: 'register',
           component: () => import('@/views/register/index.vue'),
       },
       {
@@ -40,11 +45,18 @@ const router = createRouter({
       },
       {
         path:'/location',
+        name:'location',
         component: () => import('@/views/location/index.vue'),
       },
       {
         path:'/detail',
+        name:'detail',
         component: () => import('@/views/detail/index.vue'),
+      },
+      {
+        path:'/editInfo',
+        name:'editInfo',
+        component: () => import('@/views/editInfo/index.vue'),
       },
   ],
 })

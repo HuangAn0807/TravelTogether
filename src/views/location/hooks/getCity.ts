@@ -3,8 +3,7 @@ import axios from "axios";
 import { ref } from "vue";
 import type { CityInfo } from "../type";
 import useSearchAttractions from "./searchAttractions";
-export default function useCity(){1
-  const {searchAttractions} = useSearchAttractions()
+export default function useCity(){
     // 获取当前位置信息
     const cityInfo = ref<CityInfo>({
         city: '',
@@ -29,6 +28,7 @@ export default function useCity(){1
             locationInfo.value.latitude = String(position.coords.latitude)
             locationInfo.value.longitude = String(position.coords.longitude)
             getCityAndDistrict(locationInfo.value.longitude,locationInfo.value.latitude)
+            
           },
           (error) => {
            console.log(error);
@@ -56,7 +56,7 @@ export default function useCity(){1
             cityInfo.value.citycode = addressComponent.citycode || addressComponent.adcode; // 提取城市编码信息，优先使用citycode字段，如果没有则使用adcode字段 
             cityInfo.value.abcode =  addressComponent.adcode
             cityInfo.value.district = addressComponent.district
-            searchAttractions(cityInfo.value.city)
+            // console.log(pois.value);
           } else {
             console.error('获取位置信息失败:', response.data); // 打印错误信息
           }
@@ -65,9 +65,9 @@ export default function useCity(){1
         }
        
       }
-      getLocation()
       return {
         cityInfo,
-        locationInfo
+        locationInfo,
+        getLocation
     }
 }

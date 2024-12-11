@@ -1,6 +1,6 @@
-import { ref } from 'vue'
+import { ref,watch } from 'vue'
 import axios from 'axios'
-import type {ScenicSpotInfo} from '../type.ts'
+import type {ScenicSpotInfo} from '../type'
 /**
  * 
  * @returns 返回景点信息数组，以及搜索景点的方法，以及将下滑获取的景点信息添加到数组中的方法
@@ -16,7 +16,7 @@ export default function useSearchAttractions() {
             keywords: city ,
             types: '旅游景点|公园广场|公园|动物园|植物园|水族馆|城市广场|公园内部设施|风景名胜|世界遗产|国家级景点|省级景点|纪念馆|寺庙道观|教堂|回教寺|海滩|观景点|红色景区',
             extensions: 'all',
-            page_size:'15',
+            page_size:'20',
             page_index:`${num}`
           })
           try {
@@ -28,8 +28,7 @@ export default function useSearchAttractions() {
                 pois.value = data.pois;
               }else{
                 pushPois(data.pois)
-              }
-              
+              }  
             } else {
               console.error('搜索失败：', data.info);
             }
@@ -44,7 +43,6 @@ export default function useSearchAttractions() {
      */
     const pushPois = (poi:ScenicSpotInfo[]) => {
       poi.forEach(element => {
-        console.log(element);
         pois.value.push(element)
       });
        
