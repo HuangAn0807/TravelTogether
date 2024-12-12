@@ -164,7 +164,7 @@ const goBack = () => {
         width: 100%;
         }
     }
-    ::v-deep .van-swipe__track{
+    :deep(.van-swipe__track){
         align-items: center;
     }
     .title{

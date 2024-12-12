@@ -151,7 +151,7 @@ const onRefresh = () => {
 .tab{
   background-color: #f1f4f6;
 }
-::v-deep .van-list{
+:deep(.van-list){
   font-size: 14px;
   position: relative;
   width: 100%;
