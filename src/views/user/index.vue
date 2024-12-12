@@ -1,5 +1,6 @@
 <script setup lang='ts' name=''>
 import { ref } from "vue";
+import ProfileItem from "./components/ProfileItem.vue";
 const active = ref(0)
 const activeNote = ref(0)
 </script>
@@ -34,18 +35,9 @@ const activeNote = ref(0)
         这里是简介，这里是简介，这里是简介这里是简介这里是简介这里是简介这里是简介
        </div>
        <div class="profile">
-          <div class="follow">
-            <div>99999</div>
-            <div>关注</div>
-          </div>
-          <div class="fans">
-            <div>99999</div>
-            <div>粉丝</div>
-          </div>
-          <div class="upvote-collect">
-            <div>99999</div>
-            <div>获赞与收藏</div>
-          </div>
+        <ProfileItem text="关注" :number="123"></ProfileItem>
+        <ProfileItem text="粉丝" :number="123"></ProfileItem>
+        <ProfileItem text="收藏" :number="123"></ProfileItem>
           <div class="edit">
             <RouterLink :to="{name:'editInfo'}">编辑资料</RouterLink>  
           </div>
@@ -69,11 +61,25 @@ const activeNote = ref(0)
 </template>
 
 <style scoped lang='scss'>
+.top::after{
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  top: 0;
+  content: '';
+  width: 100%;
+  height: 100%;
+  background: rgba(9, 8, 8, 0.6);
+}
 .top{
+  position: relative;
+  z-index: 100;
   width: 100%;
   height: 40%;
   color: #aca9aa;
-  background: rgba(9, 8, 8, 0.8);
+  // background: rgba(9, 8, 8, 0.8);
+  background-image: url('https://preview.qiantucdn.com/meijing/73/20/58/46T58PICIUhqnC92dkBmI_PIC2018.jpg!qt_w320');
+  background-size: cover;
   .header{
     padding: 20px;
     width: 100%;
@@ -122,10 +128,10 @@ const activeNote = ref(0)
     }
   }
 }
-::v-deep .van-tabs__line{
-    background-color: #e10a2a !important;
+:deep(.van-tabs__line){
+    background-color: #e10a2a;
     }
-::v-deep .son .van-tabs__line{
+:deep(.son .van-tabs__line){
         display: none;
       }
 

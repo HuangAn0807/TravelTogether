@@ -118,7 +118,7 @@ const onRefresh = () => {
     background-color: #fff;
     z-index: 100;
 }
-::v-deep .van-search {
+:deep(.van-search ){
         margin-left: 20vw;
     }
 .scenicSpo-list{
