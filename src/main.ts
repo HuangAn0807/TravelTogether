@@ -1,4 +1,5 @@
 import './assets/base.css'
+import '@/assets/font/iconfont.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import piniaPersist from 'pinia-plugin-persistedstate';

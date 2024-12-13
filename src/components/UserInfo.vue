@@ -1,0 +1,162 @@
+<script setup lang='ts' name=''>
+import Capsule from "./capsule/index.vue";
+import Profile from "./profile/index.vue";
+const {sex,isFollow} = defineProps<{
+  sex:number,
+  isFollow:boolean
+}>()
+</script>
+<template>
+  <div >
+    <div class="top">
+      <header class="header">
+        <van-icon name="setting-o" class="setting" size="6vw" />
+      </header>
+               <!-- 个人信息 -->
+      <div class="user-info">
+        <van-image 
+        round
+        fit="cover"
+        width="100px"
+        height="100px"
+          src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
+          class="user-img"
+          />
+          <div class="right">
+            <div class="user-name">
+              张三张三张三
+            </div>
+            <div class="user-id">
+              <div>id: 12323412</div>
+              <div>IP属地：深圳</div>
+            </div>
+          </div>
+      </div>
+      <!-- 个人简介 -->
+       <div class="intro">
+        这里是简介，这里是简介，这里是简介这里是简介这里是简介这里是简介这里是简介
+        这里是简介，这里是简介，这里是简介这里是简介这里是简介这里是简介这里是简介
+        这里是简介，这里是简介，这里是简介这里是简介这里是简介这里是简介这里是简介
+        这里是简介，这里是简介，这里是简介这里是简介这里是简介这里是简介这里是简介
+       </div>
+       <div class="label">
+        <!-- 性别年龄 -->
+        <Capsule>
+            <template #default>
+                <svg class="icon" aria-hidden="true">
+                <use v-if="sex==1" xlink:href="#icon-xingbienan"></use>
+                <use v-if="sex==2" xlink:href="#icon-xingbienv"></use>
+            </svg>
+            <!-- 年龄 -->
+            <span>22</span>
+            </template>
+        </Capsule>
+        <!-- 所在城市 -->
+        <Capsule :text="'广东深圳'"></Capsule>
+       </div>
+       <!-- 关注 粉丝 收藏  -->
+       <Profile/>
+    </div>
+   
+</div>
+</template>
+
+<style scoped lang='scss'>
+.icon {
+  margin-right:8px;
+  width: 1.2em;
+  height: 1.2em;
+  vertical-align: middle;
+  fill: currentColor;
+  overflow: hidden;
+}
+.top::after{
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  top: 0;
+  content: '';
+  width: 100%;
+  height: 100%;
+  background: rgba(9, 8, 8, 0.6);
+}
+.top{
+  position: relative;
+  z-index: 100;
+  width: 100%;
+  min-height: 320px;
+  height: 40%;
+  color: #aca9aa;
+  // background: rgba(9, 8, 8, 0.8);
+  background-image: url('https://preview.qiantucdn.com/meijing/73/20/58/46T58PICIUhqnC92dkBmI_PIC2018.jpg!qt_w320');
+  background-size: cover;
+  .header{
+    padding: 20px;
+    width: 100%;
+    height: 10vw;
+    .setting{
+    margin-left: calc(100% - 12vw);
+    }
+  }
+  .user-info{
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    .right{
+      margin-left: 20px;
+      color: #ede8e8;
+      .user-name{
+        width: calc(100vw - 140px);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 1.5em;
+      }
+      .user-id{
+        color: rgb(143, 133, 141);
+      }
+    }
+  }
+  .intro{
+    padding: 10px;
+    height: 4em;
+    max-height: 4em;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  .label{
+    display: flex
+  }
+  .edit, .sex{
+      width: 100px;
+      height: 2em;
+      line-height: 2em;
+      background-color:#736464 ;
+      border-radius: 1em; 
+    }
+    .sex{
+      margin: 10px;
+      padding: 0 10px;
+      min-width: 2em;
+      width:fit-content;
+  }
+  .follow{
+        width: 80px;
+        height: 2em;
+        line-height: 2em;
+        border-radius: 1em;
+        text-align: center;
+        font-weight: 500;
+    }
+    .red{
+        border: 1px solid #e10a2a;
+        color: #e10a2a;
+    }
+    .black{
+        border: 1px solid #898989;
+    }
+}
+</style>

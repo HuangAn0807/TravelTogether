@@ -31,9 +31,9 @@ const router = createRouter({
           component: () => import('@/views/login/index.vue'),
       },
       {
-          path: '/register',
-          name: 'register',
-          component: () => import('@/views/register/index.vue'),
+          path: '/follow',
+          name: 'follow',
+          component: () => import('@/views/follow/index.vue'),
       },
       {
           path: '/401',
@@ -57,6 +57,11 @@ const router = createRouter({
         path:'/editInfo',
         name:'editInfo',
         component: () => import('@/views/editInfo/index.vue'),
+      },
+      {
+        path:'/userDetail',
+        name:'userDetail',
+        component: () => import('@/views/userDetail/index.vue'),
       },
   ],
 })

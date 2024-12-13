@@ -3,10 +3,10 @@
 </script>
 <template>
   <div >
-
+    用户详情
 </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped lang='scss'>
 
 </style>

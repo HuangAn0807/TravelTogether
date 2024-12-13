@@ -1,5 +1,5 @@
 <script setup lang='ts' name=''>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useRouter,useRoute } from 'vue-router';
 import type { FormT } from './type';
 const show = ref(false)
@@ -12,13 +12,12 @@ const form = ref<FormT>({
     title:'',
     content:'',
     fileList:[],
-    privacy:'1'
+    privacy:'1',
+    
 })
 const router = useRouter()
 const route = useRoute()
 const locationInfo = route.query
-console.log(Object.keys(locationInfo));
-
 // 返回上一页
 const goBack = () => {
     router.push('/home')
