@@ -1,0 +1,23 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1634601",
+      "name": "性别男",
+      "font_class": "xingbienan",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
+      "icon_id": "7607190",
+      "name": "性别女",
+      "font_class": "xingbienv",
+      "unicode": "e6a8",
+      "unicode_decimal": 59048
+    }
+  ]
+}

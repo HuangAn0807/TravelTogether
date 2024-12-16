@@ -1,6 +1,8 @@
 <script setup lang='ts' name='Home'>
 import { nextTick, onMounted, ref,watch, type Ref} from "vue";
 import Card from "./components/Card.vue";
+import {useRouter} from "vue-router";
+const router = useRouter()
 const waterfall = ref<HTMLDivElement>()
 const arr = ref<number[]>([0,0])
 const data  = ref([
@@ -122,34 +124,57 @@ const onRefresh = () => {
       loading.value = true;
       loadMoreItems();
     };
+    const toSearch = () => {
+      router.push('/search')
+    }
 </script>
 <template>
-  <van-tabs v-model:active="active" sticky swipeable animated >
+  <div class="page">
+    <van-icon name="search" size="6vw" class="search" @click="toSearch"/>
+    <van-tabs v-model:active="active" sticky swipeable animated >
     <van-tab title="关注" name="follow" class="tab">
     </van-tab>
-    <van-tab title="发现" name="discover" class="tab">
-        <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-          <van-list
-          ref="waterfall"
-          class="waterfall"
-          v-model:loading="loading"
-          :immediate-check="false"
-          v-model:error="error"
-          error-text="请求失败，点击重新加载"
-          :finished="finished"
-          @load="loadMoreItems"
-          :offset="300"
-        >
-          <Card :id="`card${item.id}`" v-for="item in data" :cardData="item" :arr="arr" :key="item.id"  />
-        </van-list>  
-      </van-pull-refresh>
-    </van-tab>
-  </van-tabs>
+      <van-tab title="发现" name="discover" class="tab">
+          <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+            <van-list
+            ref="waterfall"
+            class="waterfall"
+            v-model:loading="loading"
+            :immediate-check="false"
+            v-model:error="error"
+            error-text="请求失败，点击重新加载"
+            :finished="finished"
+            @load="loadMoreItems"
+            :offset="300"
+          >
+            <Card :id="`card${item.id}`" v-for="item in data" :cardData="item" :arr="arr" :key="item.id"  />
+          </van-list>  
+        </van-pull-refresh>
+      </van-tab>
+    </van-tabs>
+  </div>
+ 
 </template>
 
 <style scoped lang="scss" >
+:deep(.van-tabs__nav ){
+  padding-right: 100px;
+}
+.page{
+  position: relative;
+}
+.search{
+  position: absolute;
+  z-index: 100;
+  right: 40px;
+  top: 10px;
+  color: #000;
+}
 .tab{
   background-color: #f1f4f6;
+}
+:deep(.van-tabs__line){
+    background-color: #e10a2a;
 }
 :deep(.van-list){
   font-size: 14px;
