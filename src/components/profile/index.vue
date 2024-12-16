@@ -13,7 +13,7 @@ const toFollow = (type:number) => {
         <ProfileItem text="收藏" :number="123"></ProfileItem>
         <slot>
             <div class="edit">
-            <RouterLink :to="{name:'editInfo'}">编辑资料</RouterLink>  
+           <slot><RouterLink :to="{name:'editInfo'}">编辑资料</RouterLink> </slot> 
           </div>
         </slot>      
     </div>

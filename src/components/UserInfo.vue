@@ -1,16 +1,15 @@
 <script setup lang='ts' name=''>
 import Capsule from "./capsule/index.vue";
 import Profile from "./profile/index.vue";
-const {sex,isFollow} = defineProps<{
+const {sex} = defineProps<{
   sex:number,
-  isFollow:boolean
 }>()
 </script>
 <template>
   <div >
     <div class="top">
       <header class="header">
-        <van-icon name="setting-o" class="setting" size="6vw" />
+       <slot name="setting"></slot> 
       </header>
                <!-- 个人信息 -->
       <div class="user-info">
@@ -55,7 +54,9 @@ const {sex,isFollow} = defineProps<{
         <Capsule :text="'广东深圳'"></Capsule>
        </div>
        <!-- 关注 粉丝 收藏  -->
-       <Profile/>
+      <slot> 
+        <Profile/>
+      </slot>
     </div>
    
 </div>
@@ -91,7 +92,7 @@ const {sex,isFollow} = defineProps<{
   background-image: url('https://preview.qiantucdn.com/meijing/73/20/58/46T58PICIUhqnC92dkBmI_PIC2018.jpg!qt_w320');
   background-size: cover;
   .header{
-    padding: 20px;
+    padding: 10px 10px 20px 10px;
     width: 100%;
     height: 10vw;
     .setting{

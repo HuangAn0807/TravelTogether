@@ -9,13 +9,20 @@ const commentValue = ref('')
 const like = ref(99999)
 // 收藏数
 const collect = ref(99999)
+// 关注
+const isFollow = ref(false)
   const images = ref([
     'https://preview.qiantucdn.com/meijing/73/20/58/46T58PICIUhqnC92dkBmI_PIC2018.jpg!qt_w320',
     'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg'
 ])
-console.log(route.query.id);
 const goBack = () => {
     router.go(-1)
+}
+const goUserDetail = () => {
+    router.push({name:'userDetail',query:{id:route.query.id}})
+}
+const followChange = () => {
+    isFollow.value =!isFollow.value
 }
 
 </script>
@@ -30,6 +37,7 @@ const goBack = () => {
             round
             src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
             class="user-img"
+            @click="goUserDetail"
             />
                 <div class="user-name">
                     {{ '张三张三张三张三张三张三张三张三张三张三' }}
@@ -37,12 +45,14 @@ const goBack = () => {
         </div>
     </div>
     <div class="header-right">
-        <van-button type="danger" plain round  class="follow">关注</van-button>
+        <div :class="['right',isFollow?'black':'red']" @click="followChange">
+                      {{ isFollow ? '已关注' : '关注' }}
+        </div>
     </div>
    </header>
    <main class="main">
     <div class="top">
-        <van-swipe  lazy-render>
+        <van-swipe  lazy-render :loop="false">
             <van-swipe-item class="item" v-for="image in images" :key="image">
                 <img :src="image"  fit="cover" class="img"/>
             </van-swipe-item>
@@ -141,12 +151,21 @@ const goBack = () => {
     }
     .header-right{
         display: flex;
-        .follow{
-        margin-right: 10px;
-        font-size: 3vw;
-        width: 15vw;
-        height: 6vw;
-       }
+       .right{
+        width: 80px;
+        height: 2em;
+        line-height: 2em;
+        border-radius: 1em;
+        text-align: center;
+        font-weight: 500;
+        }
+    .red{
+            border: 1px solid #e10a2a;
+            color: #e10a2a;
+        }
+        .black{
+            border: 1px solid #898989;
+        }
     }
 }
 .main{

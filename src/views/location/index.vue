@@ -1,5 +1,5 @@
 <script setup lang='ts' name=''>
-import { nextTick, onMounted, ref, watch } from "vue";
+import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import useCity from './hooks/getCity'
 import useSearchAttractions from "./hooks/searchAttractions";
