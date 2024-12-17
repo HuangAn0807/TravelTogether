@@ -21,13 +21,6 @@ export const useUserStore = defineStore("user", () => {
         setUserInfo
     }
 },{
-    // 持久化用户数据和token
-    persist:{
-    key:'user',
-    serializer: {
-        deserialize: parse,
-        serialize: stringify
-        }
-    }
+    persist:true
   }
 )
