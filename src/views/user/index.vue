@@ -55,7 +55,7 @@ const showCDialog = () => {
     >
     <template #default>
       <van-cell-group>
-        <van-cell title="修改密码" is-link to="index" />
+        <van-cell title="修改密码" is-link  :to="{name:'changePassword'}" />
       </van-cell-group>
       <van-button type="danger" class="outLogin" @click="showCDialog">退出登录</van-button>
 
@@ -81,5 +81,8 @@ const showCDialog = () => {
   width: calc(100% - 20px);
   margin: 10px;
   margin-top: calc(100vh - 120px);
+}
+:deep(.van-tab--active){
+  color: #e10a2a;
 }
 </style>

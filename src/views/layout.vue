@@ -8,7 +8,7 @@ const toPath = () => {
 <template>
     <div class="page">
         <RouterView/>
-        <van-tabbar fixed class="footer" route  active-color="#ee0a24">
+        <van-tabbar fixed class="footer" route  active-color="#e10a2a">
             <van-tabbar-item name="home" icon="home-o" :to="`/home`">首页</van-tabbar-item>
             <van-tabbar-item> <van-icon name="plus" class="plus" @click="toPath"/></van-tabbar-item>  
             <van-tabbar-item name="user" icon="contact" :to="`/user`">我</van-tabbar-item>
