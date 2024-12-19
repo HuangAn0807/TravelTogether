@@ -8,9 +8,13 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Capsule: typeof import('./src/components/capsule/index.vue')['default']
+    Comment: typeof import('./src/components/comment/index.vue')['default']
+    CommentThree: typeof import('./src/components/commentThree/index.vue')['default']
+    CommentTwo: typeof import('./src/components/commentTwo/index.vue')['default']
     Profile: typeof import('./src/components/profile/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SecondaryReview: typeof import('./src/components/secondaryReview/index.vue')['default']
     UserInfo: typeof import('./src/components/UserInfo.vue')['default']
     VanActionSheet: typeof import('vant/es')['ActionSheet']
     VanArea: typeof import('vant/es')['Area']

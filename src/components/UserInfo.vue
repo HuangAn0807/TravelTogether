@@ -82,6 +82,7 @@ const {sex} = defineProps<{
   background: rgba(9, 8, 8, 0.6);
 }
 .top{
+  padding-bottom:10px ;
   position: relative;
   z-index: 100;
   width: 100%;
@@ -91,6 +92,7 @@ const {sex} = defineProps<{
   // background: rgba(9, 8, 8, 0.8);
   background-image: url('https://preview.qiantucdn.com/meijing/73/20/58/46T58PICIUhqnC92dkBmI_PIC2018.jpg!qt_w320');
   background-size: cover;
+  // box-sizing: border-box;
   .header{
     padding: 10px 10px 20px 10px;
     width: 100%;

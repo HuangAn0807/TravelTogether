@@ -1,8 +1,73 @@
 <script setup lang='ts' name=''>
 import { useRoute,useRouter } from 'vue-router';
+import  Comment from '@/components/comment/index.vue';
+import type { CommentT } from '@/components/comment/type';
 import {ref} from 'vue'
 const route = useRoute();
 const router = useRouter()
+const datalist = ref<CommentT[]>([  
+    {
+        id:'1',
+        parentId:'',
+        like:12,
+        username:'张三',
+        content:'程序员的破防瞬间的破防瞬间 程序员的破防瞬间程序员的破防瞬间 程序员的破防瞬间程序员',
+        time:'01-01',
+        province:'广东',
+        avatar:'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg',
+        children:[
+             {
+                id:'2',
+                parentId:'1',
+                parentUserName:'张三',
+                like:12,
+                username:'李四',
+                content:'123456',
+                time:'01-01',
+                province:'广东',
+                avatar:'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg',
+                children:[
+                    {
+                        id:'3',
+                        parentId:'2',
+                        parentUserName:'李四',
+                        like:12,
+                        username:'黄小安',
+                        content:'如何躺着也能暴富',
+                        time:'01-01',
+                        province:'广东',
+                        avatar:'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg',
+                        children:[
+                            {
+                                id:'4',
+                                parentId:'3',
+                                parentUserName:'黄小安',
+                                like:12,
+                                username:'王五',
+                                content:'程序员的破防瞬间 程序员的破防瞬间程序员的破防瞬间',
+                                time:'01-01',
+                                province:'广东',
+                                avatar:'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg',
+                                children:[]
+                            }
+                        ]
+                    },
+                ]
+            },
+        ]
+    },
+    {
+        id:'5',
+        parentId:'',   
+        like:12,
+        username:'张三',
+        content:'如何躺平也能暴富',
+        time:'01-01',
+        province:'广东',
+        avatar:'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg',
+        children:[]
+        }
+])
 // 评论内容
 const commentValue = ref('')
 // 点赞数
@@ -74,6 +139,20 @@ const followChange = () => {
         <div class="comment-count">
             共有{{ '1' }}条评论
         </div>
+        <Comment 
+        v-for="item in datalist"
+        :id="item.id"
+        :parentId="item.parentId"
+        :parentUserName="item.parentUserName"
+        :username="item.username"
+        :content="item.content"
+        :time="item.time"
+        :province="item.province"
+        :avatar="item.avatar"
+        :children="item.children"
+        :like="item.like"
+        >
+        </Comment>
       </div>
    </main>
    <footer>
@@ -198,6 +277,7 @@ const followChange = () => {
     }
     .bottom{
         padding: 10px;
+        padding-bottom: 14vw;
         .comment-count{
             font-size: 1em;
             color: #898989;
