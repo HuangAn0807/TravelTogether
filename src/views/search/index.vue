@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import HistoryItem from './components/HistoryItem.vue';
+import Waterfall from "@/components/waterfall/index.vue";
 import { useSearchHistoryStore } from '@/stores/searchHistoryStore';
 // 搜索数据及方法
 const {searchHistoryList,setSearchHistoryList,clearSearchHistoryList,deleteSearchHistory} = useSearchHistoryStore()
@@ -42,6 +43,9 @@ const delSearchHistory = (index:number) => {
 }
 const changeSearchShow = () => {
     showSearch.value = !showSearch.value
+}
+const fn = () => {
+    console.log(123);
 }
 </script>
 <template>
@@ -90,10 +94,10 @@ const changeSearchShow = () => {
         description="暂无搜索内容"
         />
     </div>
-    <div v-show="!showSearch">
+    <div v-if="!showSearch">
         <van-tabs v-model:active="active" sticky>
-            <van-tab :title="'笔记 '">
-               
+            <van-tab :title="'笔记 '" class="tab">
+                <Waterfall :request-data="fn"/>
             </van-tab>
             <van-tab :title="'用户 '">
                

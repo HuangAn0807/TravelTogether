@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import { parse, stringify } from 'zipson'
 import { ref } from "vue";
 export const useUserStore = defineStore("user", () => {
     const token = ref("");

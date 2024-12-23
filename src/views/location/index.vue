@@ -51,6 +51,7 @@ const onLoad = () => {
         number.value++
         // 加载景点数据
         searchAttractions(search.value||cityInfo.value.city,number.value)
+        // 当加载的景点数量大于等于城市景点数量时表示加载完成
         if(pois.value.length>=cityPoisCount.value){
             finished.value = true
         }  

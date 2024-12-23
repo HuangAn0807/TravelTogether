@@ -1,6 +1,7 @@
 <script setup lang='ts' name=''>
 import UserInfo from '@/components/UserInfo.vue'
 import Profile from "@/components/profile/index.vue";
+import Waterfall from '@/components/waterfall/index.vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 const router = useRouter()
@@ -11,6 +12,9 @@ const followChange = () => {
 }
 const goBack = () => {
     router.back()
+}
+const fn = () => {
+    console.log(123);
 }
 </script>
 <template>
@@ -30,8 +34,8 @@ const goBack = () => {
         </template>
     </UserInfo>
     <van-tabs v-model:active="active" sticky  shrink>
-        <van-tab  title="笔记">
-          内容
+        <van-tab  title="笔记" class="tab">
+            <Waterfall :request-data="fn"/>
         </van-tab>
       </van-tabs>
 </div>
@@ -58,5 +62,8 @@ const goBack = () => {
     }
     .header{
         padding: 10px;
+    }
+    .tab{
+        margin-bottom: 10px;
     }
 </style>
