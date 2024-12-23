@@ -10,6 +10,12 @@ export default function useSearchAttractions() {
     const pois = ref<ScenicSpotInfo[]>([])
     // 城市景点数量
     const cityPoisCount = ref(0)
+    /**
+     * 搜索城市景点
+     * @param city 城市名称
+     * @param num 页数
+     *  
+     */
     const searchAttractions = async (city: string,num:number = 1) => {
         const params = ref({
             key: '7527e8d695b957eed8793bb60651869a',

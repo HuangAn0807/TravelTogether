@@ -1,30 +1,152 @@
 <script setup lang='ts' name=''>
 import { useRoute,useRouter } from 'vue-router';
+import  Comment from './components/Comment.vue';
+import {emitter} from '@/utils/emitter';
 import {ref} from 'vue'
+import type { Reply,Form,CommentT,ChangeLike} from './type';
 const route = useRoute();
 const router = useRouter()
+const input = ref<HTMLInputElement | null>(null)
+const datalist = ref<CommentT[]>([  
+    {
+        id:'1',
+        parentId:'',
+        rootId:'',
+        parentUserName:'',
+        like:12,
+        username:'张三',
+        content:'程序员的破防瞬间的破防瞬间 程序员的破防瞬间程序员的破防瞬间 程序员的破防瞬间程序员',
+        time:'01-01',
+        province:'广东',
+        avatar:'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg',
+        children:[
+             {
+                id:'2',
+                parentId:'1',
+                rootId:'1',
+                parentUserName:'张三',
+                like:12,
+                username:'李四',
+                content:'123456',
+                time:'01-01',
+                province:'广东',
+                avatar:'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg',
+                children:[
+                    {
+                        id:'3',
+                        parentId:'2',
+                        rootId:'1',
+                        parentUserName:'李四',
+                        like:12,
+                        username:'黄小安',
+                        content:'如何躺着也能暴富',
+                        time:'01-01',
+                        province:'广东',
+                        avatar:'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg',
+                        children:[
+                            {
+                                id:'4',
+                                parentId:'3',
+                                rootId:'1',
+                                parentUserName:'黄小安',
+                                like:12,
+                                username:'王五',
+                                content:'程序员的破防瞬间 程序员的破防瞬间程序员的破防瞬间',
+                                time:'01-01',
+                                province:'广东',
+                                avatar:'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg',
+                                children:[]
+                            }
+                        ]
+                    },
+                ]
+            },
+        ]
+    },
+    {
+        id:'5',
+        rootId:'',
+        parentId:'',
+        parentUserName:'',   
+        like:12,
+        username:'张三',
+        content:'如何躺平也能暴富',
+        time:'01-01',
+        province:'广东',
+        avatar:'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg',
+        children:[
+            {
+                id:'6',
+                parentId:'5',
+                rootId:'5',
+                parentUserName:'李四',
+                like:12,
+                username:'黄小安',
+                content:'如何躺着也能暴富',
+                time:'01-01',
+                province:'广东',
+                avatar:'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg',
+                children:[]
+            }   
+          ]
+        }
+])
+const form = ref<Form>({
+    content:'',
+    rootId:'',
+    replyId:'',
+    id:''
+
+})
 // 评论内容
 const commentValue = ref('')
 // 点赞数
-const like = ref(99999)
+const like = ref(999)
 // 收藏数
-const collect = ref(99999)
+const collect = ref(9999)
 // 关注
 const isFollow = ref(false)
-  const images = ref([
+//星星图标
+const starIcon = ref('star')
+
+const placeholder = ref('')
+const images = ref([
     'https://preview.qiantucdn.com/meijing/73/20/58/46T58PICIUhqnC92dkBmI_PIC2018.jpg!qt_w320',
     'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg'
 ])
 const goBack = () => {
     router.go(-1)
 }
+// 跳转用户详情
 const goUserDetail = () => {
     router.push({name:'userDetail',query:{id:route.query.id}})
 }
+// 关注
 const followChange = () => {
     isFollow.value =!isFollow.value
 }
-
+// 回复
+const handleReply:Reply = (data) => {
+    placeholder.value = `回复${data.username}`
+    form.value.replyId = data.id
+    input.value?.focus()
+}
+// 监听回复事件
+emitter.on('reply',handleReply)
+// 失去焦点执行的操作
+const loseFocus = () => {
+    placeholder.value = ''
+}
+const isLike = ref(false)
+const changeLike:ChangeLike = (count,icon) => {
+    if(icon==='like'){
+        like.value = count
+    }else if(icon===starIcon.value){
+        collect.value = count
+    }
+   
+   
+}
 </script>
 <template>
 <div class="page-content page">
@@ -74,27 +196,42 @@ const followChange = () => {
         <div class="comment-count">
             共有{{ '1' }}条评论
         </div>
+        <Comment
+        v-for="item in datalist"
+        :key="item.id"
+        :root-id="item.rootId"
+        :id="item.id"
+        :parentId="item.parentId"
+        :parentUserName="item.parentUserName"
+        :username="item.username"
+        :content="item.content"
+        :time="item.time"
+        :province="item.province"
+        :avatar="item.avatar"
+        :children="item.children"
+        :like="item.like"
+        >
+        </Comment>
       </div>
    </main>
    <footer>
         <div class="left">
-            <van-field v-model="commentValue"left-icon="smile-o" placeholder="说点什么" class="input" />
+            <van-field 
+            v-model="commentValue" 
+            left-icon="smile-o" 
+            :placeholder="placeholder||'说点什么'"
+            @blur="loseFocus"
+            class="input" 
+            ref="input"/>
         </div>
         <div class="right">
             <div class="like">
-                <van-rate v-model="like" icon="like" void-icon="like-o" count="1" clearable />
-            <span>{{ like }}</span>
+              <!-- 点赞 -->
+              <Upvote @changeLike="changeLike" :count="like"/>
             </div>
             <div class="collect">
-                <van-rate
-                v-model="collect"
-                count="1"
-                :size="25"
-                color="#ffd21e"
-                void-icon="star"
-                void-color="#eee"
-                />
-                <span>{{ collect }}</span>
+              <!-- 收藏 -->
+              <Upvote @changeLike="changeLike" :icon="starIcon" :color="'#ffd21e'" :count="collect"/>
             </div>
         </div>
    </footer>
@@ -198,6 +335,8 @@ const followChange = () => {
     }
     .bottom{
         padding: 10px;
+        padding-top: 0;
+        padding-bottom: 14vw;
         .comment-count{
             font-size: 1em;
             color: #898989;

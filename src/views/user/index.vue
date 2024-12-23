@@ -1,7 +1,8 @@
 <script setup lang='ts' name=''>
-import { ref } from "vue";
+import {ref } from "vue";
 import UserInfo from "@/components/UserInfo.vue";
-import { showConfirmDialog   } from 'vant';
+import { showConfirmDialog} from 'vant';
+import Waterfall from "@/components/waterfall/index.vue";
 const active = ref(0)
 const activeNote = ref(0)
 const sex = ref(2)
@@ -23,6 +24,10 @@ const showCDialog = () => {
     // on cancel
   });
 }
+const fn = () => {
+  console.log(123);
+  
+}
 </script>
 <template>
   <div class="page">
@@ -35,13 +40,19 @@ const showCDialog = () => {
       <van-tabs v-model:active="active" sticky >
         <van-tab  title="笔记">
             <van-tabs class="son" v-model:active="activeNote" >
-                <van-tab title="公开">内容 1</van-tab>
-                <van-tab title="私密">内容 2</van-tab>
+                <van-tab title="公开" class="tab"> 
+                    <Waterfall :request-data="fn"/>
+                </van-tab>
+                <van-tab title="私密"  class="tab">
+                  <Waterfall :request-data="fn"/>
+                </van-tab>
             </van-tabs>
         </van-tab>
-        <van-tab  title="收藏">
+        <van-tab  title="收藏" class="tab">
+          <Waterfall :request-data="fn"/>
         </van-tab>
-        <van-tab  title="赞过">
+        <van-tab  title="赞过"  class="tab">
+          <Waterfall :request-data="fn"/>
         </van-tab>
       </van-tabs>
     </div>
@@ -58,7 +69,6 @@ const showCDialog = () => {
         <van-cell title="修改密码" is-link  :to="{name:'changePassword'}" />
       </van-cell-group>
       <van-button type="danger" class="outLogin" @click="showCDialog">退出登录</van-button>
-
     </template>
     </van-popup>
 </template>

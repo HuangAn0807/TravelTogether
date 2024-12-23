@@ -56,6 +56,11 @@
   box-sizing: border-box;
   margin: 0;
   font-weight: normal;
+  /* // 隐藏滚动条 */
+  -ms-overflow-style: none;  /* IE 10+ 和 Edge */
+  scrollbar-width: none; /* Firefox 64+ */
+  -webkit-overflow-scrolling: touch; /* 在移动设备上启用原生滚动 */
+  scroll-behavior: smooth;
 }
 
 body {
@@ -89,4 +94,7 @@ body {
   height: 100vh;
   padding: 10px;
   background-color: #fff;
+}
+.tab{
+  background-color: #f1f4f6;
 }

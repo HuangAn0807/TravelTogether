@@ -1,5 +1,5 @@
 <script setup lang='ts' name=''>
-import {ref,onMounted,computed} from "vue";
+import {ref,onMounted,computed, nextTick} from "vue";
 import { useRouter } from "vue-router";
 const router = useRouter()
 const {cardData,arr} = defineProps<{
@@ -26,23 +26,28 @@ const cardWidth = computed(() => (bodyWidth.value-30)/2)
 
 // 设置当前元素的位置
 const setCardPosotion = () => {
-        minIndex.value = arr.indexOf(Math.min(...arr));
-        if(minIndex.value%2===0){
-            // 如果是第一列就增加10px的左边距
-            card.value!.style.left = `${minIndex.value * cardWidth.value + 10}px`;
-        }else{
-            // 如果是第二列就增加20px的左边距
-            card.value!.style.left = `${minIndex.value * cardWidth.value + 20 }px`;
-        }
-        // 设置当前元素的距离顶部的位置
-        card.value!.style.top = `${arr[minIndex.value]}px`;
-        // 设置当前元素的宽度
-        card.value!.style.width = `${cardWidth.value}px`;
-        arr[minIndex.value] += card.value!.clientHeight+10 || 0;
+        // 等待dom渲染完成再设置位置否则获取不到元素的宽度高
+        nextTick(() => {
+            minIndex.value = arr.indexOf(Math.min(...arr));
+            if(minIndex.value%2===0){
+                // 如果是第一列就增加10px的左边距
+                card.value!.style.left = `${minIndex.value * cardWidth.value + 10}px`;
+            }else{
+                // 如果是第二列就增加20px的左边距
+                card.value!.style.left = `${minIndex.value * cardWidth.value + 20 }px`;
+            }
+            // 设置当前元素的距离顶部的位置
+            card.value!.style.top = `${arr[minIndex.value]}px`;
+            // 设置当前元素的宽度
+            card.value!.style.width = `${cardWidth.value}px`;  
+            arr[minIndex.value] += card.value!.clientHeight+10 || 0;
+        })
+      
     }  
 onMounted(() => {
     setCardPosotion()  
 })
+// 进入详情页
 const toDetail = () => {
     router.push({
         path: '/detail',
@@ -51,37 +56,42 @@ const toDetail = () => {
         }
       })
 }
+const changeLike = (count:number) => {
+  cardData.like = count
+}
 </script>
 <template>
-  <div class="card" ref="card" @click="toDetail">
+  <div class="card" ref="card" >
+        <div @click="toDetail">
             <van-image
-             class="card-img"
-              fit="contain"
-              :src="cardData.img" 
-            >
-            <template v-slot:loading>
-              <van-loading type="spinner" size="20" />
-            </template>
-            </van-image>
-            <div class="text">
-             {{ cardData.text}}
-            </div>
-            <div class="user">
-              <div class="user-info">
-                <van-image 
-                fit="cover"
-                round
-                :src="cardData.userImg"
-                class="user-img"
-                />
-                <div class="user-name">
-                  {{ cardData.user }}
+                class="card-img"
+                  fit="contain"
+                  :src="cardData.img" 
+                >
+                <template v-slot:loading>
+                  <van-loading type="spinner" size="20" />
+                </template>
+                </van-image>
+                <div class="text">
+                {{ cardData.text}}
                 </div>
-              </div>
-              <div class="like">
-                <van-rate v-model="cardData.like" icon="like" void-icon="like-o" count="1" clearable /><span>{{ cardData.like }}</span>
-              </div>
+        </div>    
+        <div class="user">
+          <div class="user-info">
+            <van-image 
+            fit="cover"
+            round
+            :src="cardData.userImg"
+            class="user-img"
+            />
+            <div class="user-name">
+              {{ cardData.user }}
             </div>
+          </div>
+          <div class="like">
+            <Upvote @changeLike="changeLike" :count="cardData.like" position="bottom"/>
+          </div>
+        </div>
           </div>
 </template>
 
@@ -135,6 +145,10 @@ const toDetail = () => {
           display: flex;
           span{
           text-overflow: ellipsis; /* 使用省略号表示溢出内容 */
+          }
+          .like-num{
+            font-size: 1.2em;
+            line-height: 6vw;
           }
         }
       }

@@ -1,0 +1,39 @@
+.user-name,.date-adress,.parent-name{
+    color: #bfbfbf;
+ }
+ .time{
+    margin-left: 5px;
+ }
+.comment{
+    margin: 5px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: fit-content;
+    .user-info{
+        display: flex;
+        width: calc(100% - 40px);
+        .user-img{
+            margin-right: 10px;
+        }
+        .author{
+            margin-left: 10px;
+            padding: 5px 10px;
+            background-color: #ffebef;
+            border-radius: 1em;
+            color: #e73e5c;
+        }
+        .center{
+            width:calc(100% - 40px);
+            .text{
+                display: flex;
+                flex-wrap: wrap;
+            }
+        }
+    }
+    .like{
+        width: 40px;
+        text-align: center;
+    }
+}

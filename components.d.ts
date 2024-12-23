@@ -8,17 +8,17 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Capsule: typeof import('./src/components/capsule/index.vue')['default']
+    Card: typeof import('./src/components/card/index.vue')['default']
     Profile: typeof import('./src/components/profile/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Upvote: typeof import('./src/components/upvote/index.vue')['default']
     UserInfo: typeof import('./src/components/UserInfo.vue')['default']
     VanActionSheet: typeof import('vant/es')['ActionSheet']
     VanArea: typeof import('vant/es')['Area']
-    VanButtom: typeof import('vant/es')['Buttom']
     VanButton: typeof import('vant/es')['Button']
     VanCell: typeof import('vant/es')['Cell']
     VanCellGroup: typeof import('vant/es')['CellGroup']
-    VanCol: typeof import('vant/es')['Col']
     VanDatePicker: typeof import('vant/es')['DatePicker']
     VanEmpty: typeof import('vant/es')['Empty']
     VanField: typeof import('vant/es')['Field']
@@ -30,9 +30,7 @@ declare module 'vue' {
     VanNavBar: typeof import('vant/es')['NavBar']
     VanPopup: typeof import('vant/es')['Popup']
     VanPullRefresh: typeof import('vant/es')['PullRefresh']
-    VanRate: typeof import('vant/es')['Rate']
     VanSearch: typeof import('vant/es')['Search']
-    VanShareSheet: typeof import('vant/es')['ShareSheet']
     VanSwipe: typeof import('vant/es')['Swipe']
     VanSwipeItem: typeof import('vant/es')['SwipeItem']
     VanTab: typeof import('vant/es')['Tab']
@@ -40,5 +38,6 @@ declare module 'vue' {
     VanTabbarItem: typeof import('vant/es')['TabbarItem']
     VanTabs: typeof import('vant/es')['Tabs']
     VanUploader: typeof import('vant/es')['Uploader']
+    Waterfall: typeof import('./src/components/waterfall/index.vue')['default']
   }
 }
