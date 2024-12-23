@@ -43,6 +43,7 @@ const setCardPosotion = () => {
 onMounted(() => {
     setCardPosotion()  
 })
+// 进入详情页
 const toDetail = () => {
     router.push({
         path: '/detail',
@@ -51,37 +52,43 @@ const toDetail = () => {
         }
       })
 }
+const changeLike = (isLike:boolean,count:number) => {
+  cardData.like = count
+}
 </script>
 <template>
-  <div class="card" ref="card" @click="toDetail">
+  <div class="card" ref="card" >
+        <div @click="toDetail">
             <van-image
-             class="card-img"
-              fit="contain"
-              :src="cardData.img" 
-            >
-            <template v-slot:loading>
-              <van-loading type="spinner" size="20" />
-            </template>
-            </van-image>
-            <div class="text">
-             {{ cardData.text}}
-            </div>
-            <div class="user">
-              <div class="user-info">
-                <van-image 
-                fit="cover"
-                round
-                :src="cardData.userImg"
-                class="user-img"
-                />
-                <div class="user-name">
-                  {{ cardData.user }}
+                class="card-img"
+                  fit="contain"
+                  :src="cardData.img" 
+                >
+                <template v-slot:loading>
+                  <van-loading type="spinner" size="20" />
+                </template>
+                </van-image>
+                <div class="text">
+                {{ cardData.text}}
                 </div>
-              </div>
-              <div class="like">
-                <van-rate v-model="cardData.like" icon="like" void-icon="like-o" count="1" clearable /><span>{{ cardData.like }}</span>
-              </div>
+        </div>    
+        <div class="user">
+          <div class="user-info">
+            <van-image 
+            fit="cover"
+            round
+            :src="cardData.userImg"
+            class="user-img"
+            />
+            <div class="user-name">
+              {{ cardData.user }}
             </div>
+          </div>
+          <div class="like">
+            <!-- <van-rate v-model="cardData.like" icon="like" void-icon="like-o" count="1" clearable /><span>{{ cardData.like }}</span> -->
+            <Upvote @changeLike="changeLike" :count="cardData.like" position="bottom"/>
+          </div>
+        </div>
           </div>
 </template>
 
@@ -135,6 +142,10 @@ const toDetail = () => {
           display: flex;
           span{
           text-overflow: ellipsis; /* 使用省略号表示溢出内容 */
+          }
+          .like-num{
+            font-size: 1.2em;
+            line-height: 6vw;
           }
         }
       }

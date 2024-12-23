@@ -1,6 +1,8 @@
 <script setup lang='ts' name='CommentThree'>
-import type { CommentT } from '@/components/comment/type';
-import CommentThree from '@/components/commentThree/index.vue'
+import type { CommentT } from '../type';
+import Upvote from '@/components/upvote/index.vue'
+import { emitter } from '@/utils/emitter';
+import { ref } from 'vue'
 const {
     id,
     parentId,
@@ -14,6 +16,15 @@ const {
     avatar = 'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg',
     children,
     } = defineProps<CommentT>()
+// 点赞数
+const likenum = ref(like)
+// 将回复的评论id和用户名传给父组件
+const handleReply = () => {
+    emitter.emit('reply',{id,username})
+}
+const changeLike = (count:number) => {
+    likenum.value = count
+}
 </script>
 <template>
    <div class="comment">
@@ -41,7 +52,7 @@ const {
                                 <span class="date-adress">
                                 {{ time+' ' }} {{ province }}
                                 </span>
-                                <span class="reply">
+                                <span class="reply" @click="handleReply">
                                         回复
                                 </span>
                         </div>
@@ -49,14 +60,14 @@ const {
                 </div>
             </div>
             <div class="like">
-                <van-rate  icon="like" void-icon="like-o" count="1" clearable  size="6vw"/>
-                <div>{{ like }}</div>
+                <Upvote @changeLike="changeLike" :count="likenum" position="bottom"/>
             </div>
     </div>
     <template v-if="children.length>0">
         <CommentThree
         v-for="child in children"
         :key="child.id"
+        :root-id="child.rootId"
         :id="child.id"
         :parentId="child.parentId"
         :parentUserName="child.parentUserName"

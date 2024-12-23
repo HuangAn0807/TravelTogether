@@ -1,5 +1,7 @@
 <script setup lang='ts' name=''>
-import type { CommentT } from '@/components/comment/type';
+import type { CommentT } from '../type';
+import { emitter } from '@/utils/emitter';
+import { ref } from 'vue'
 const {
     id,
     parentId,
@@ -13,6 +15,15 @@ const {
     avatar = 'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg',
     children,
     } = defineProps<CommentT>()
+  // 点赞数
+const likenum = ref(like)
+const changeLike = (count:number) => {
+   likenum.value = count
+}
+  // 将回复的评论id和用户名传给父组件
+  const handleReply = () => {
+        emitter.emit('reply',{id,username})
+    }
 </script>
 <template>
    <div class="comment">
@@ -38,7 +49,7 @@ const {
                             <span class="date-adress">
                             {{ time+' ' }} {{ province }}
                             </span>
-                            <span class="reply">
+                            <span class="reply" @click="handleReply">
                                     回复
                             </span>
                     </div>
@@ -46,8 +57,7 @@ const {
                 </div>
             </div>
             <div class="like">
-                <van-rate  icon="like" void-icon="like-o" count="1" clearable  size="6vw"/>
-                <div>{{ like }}</div>
+                <Upvote @changeLike="changeLike" :count="likenum" position="bottom"/>
             </div>
         </div>
 </template>

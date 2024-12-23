@@ -1,12 +1,16 @@
 <script setup lang='ts' name='Comment'>
-import { nextTick, ref } from 'vue'
+import { ref } from 'vue'
 import '@/assets/css/comment.css'
-import type { CommentT } from './type';
-import CommentTwo from '@/components/commentTwo/index.vue';
-import ConmentThree from '@/components/commentThree/index.vue';
+import type { CommentT } from '../type';
+import CommentTwo from './CommentTwo.vue';
+import ConmentThree from './CommentThree.vue';
+import { emitter } from '@/utils/emitter';
 const father = ref<HTMLDivElement>();
 const showAll = ref(false);
 const {
+    id,
+    parentId,
+    parentUserName,
     like,
     username,
     content,
@@ -16,12 +20,19 @@ const {
     avatar = 'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg',
     children,
     } = defineProps<CommentT>()
+// 点赞数
+const likenum = ref(like)
+    // 将回复的评论id和用户名传给父组件
+    const handleReply = () => {
+    emitter.emit('reply',{id,username})
+}
+const changeLike = (count:number) => {
+   likenum.value = count
+}
  // 显示该评论的所有回复
 const changeShow = () => {
         showAll.value = !showAll.value;
-        console.log(father.value);
-        
-        father.value!.style.height = 'fit-content';
+        father.value!.style.maxHeight = 'fit-content';
     }
 </script>
 <template>
@@ -49,7 +60,7 @@ const changeShow = () => {
                             <span class="date-adress">
                             {{ time+' ' }} {{ province }}
                             </span>
-                            <span class="reply">
+                            <span class="reply" @click="handleReply">
                                     回复
                             </span>
                     </div>
@@ -57,30 +68,38 @@ const changeShow = () => {
                 </div>
             </div>
             <div class="like">
-                <van-rate  icon="like" void-icon="like-o" count="1" clearable  size="6vw"/>
-                <div>{{ like }}</div>
+                <!-- 点赞组件 -->
+                <div class="like">
+              <!-- 点赞 -->
+              <Upvote @changeLike="changeLike" :count="likenum" position="bottom"/>
+            </div>
             </div>
         </div>
-        <CommentTwo 
-        v-for="child in children"
-        class="son"
-        :key="child.id"
-        :id="child.id"
-        :parentId="child.parentId"
-        :parentUserName="child.parentUserName"
-        :like="child.like"
-        :username="child.username"
-        :content="child.content"
-        :time="child.time"
-        :province="child.province"
-        :avatar="child.avatar"
-        :children="child.children"
-        :width="'6vw'"
-        />
-        <template v-for="child in children">
+        <template v-if="children.length>0">
+            <CommentTwo 
+            v-for="child in children"
+            class="son" 
+            :key="child.id"
+             :root-id="child.rootId"
+            :id="child.id"
+            :parentId="child.parentId"
+            :parentUserName="child.parentUserName"
+            :like="child.like"
+            :username="child.username"
+            :content="child.content"
+            :time="child.time"
+            :province="child.province"
+            :avatar="child.avatar"
+            :children="child.children"
+            :width="'6vw'"
+            />
+        </template>
+       
+        <template v-for="child in children" v-if="children.length">
             <div v-if="child.children.length>0">
                 <ConmentThree
                 v-for="item in child.children"
+                :root-id="child.rootId"
                 :key="item.id"
                 :id="item.id"
                 :parentId="item.parentId"
@@ -96,7 +115,9 @@ const changeShow = () => {
                 />
             </div>
         </template>
+       
     </div>
+    <div @click="changeShow" v-if="!showAll" class="show-all">展开所有回复</div>
 </template>
 
 <style scoped lang='scss'>
@@ -106,14 +127,15 @@ const changeShow = () => {
         width: 40px;
     }
 }
-.father{
-    padding: 10px 0;
-    height: fit-content;
-    // overflow: hidden;
-    .show-all{
+.show-all{
         padding-left: 8vw;
         color:#3c5c7f ;
     }
+    
+.father{
+    padding: 10px 0;
+    max-height: 170px;
+    overflow: hidden;
     
 }
 </style>
