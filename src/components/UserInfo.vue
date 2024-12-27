@@ -18,7 +18,7 @@ const {sex} = defineProps<{
         fit="cover"
         width="100px"
         height="100px"
-          src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
+          src="src/assets/images/ceshi.png"
           class="user-img"
           />
           <div class="right">

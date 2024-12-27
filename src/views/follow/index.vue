@@ -9,7 +9,19 @@ const active = ref(Number(route.query.type) as number)
 const goBack = () => {
   router.go(-1)
 }
-const list = ref([{isFollow:false,intro:'这是简介'},{isFollow:true}])
+const list = ref([
+  {
+    isFollow:false,
+    intro:'这是简介',
+    username:'小明',
+    avatar:'https://img.yzcdn.cn/vant/cat.jpeg'
+  },
+  {
+    isFollow:true,
+    username:'张三',
+    avatar:'https://img.yzcdn.cn/vant/cat.jpeg'
+  }
+])
 // const isFollow = ref(false)
 // 关注点击事件
 const followChange = (index:number,newVal:boolean) => {
@@ -30,7 +42,13 @@ const followChange = (index:number,newVal:boolean) => {
     </div>
     <van-tabs v-model:active="active" sticky >
         <van-tab :title="'关注 '">
-          <UserItem v-for="(item,index) in list" @followChange="followChange(index,$event)" :isFollow="item.isFollow">
+          <UserItem 
+          v-for="(item,index) in list" 
+          @followChange="followChange(index,$event)" 
+          :isFollow="item.isFollow"
+          :username="item.username"
+          :avatar="item.avatar"
+          >
               <template #intro>
                 {{ item.intro||'还没有简介' }} 
               </template>
@@ -40,7 +58,13 @@ const followChange = (index:number,newVal:boolean) => {
           </UserItem>
         </van-tab>
         <van-tab :title="'粉丝'">
-          <UserItem v-for="(item,index) in list" @followChange="followChange(index,$event)" :isFollow="item.isFollow">
+          <UserItem 
+          v-for="(item,index) in list" 
+          @followChange="followChange(index,$event)" 
+          :isFollow="item.isFollow"
+          :username="item.username"
+          :avatar="item.avatar"
+          >
               <template #fans>
                 笔记
                 <span>{{ 5 }}</span>
