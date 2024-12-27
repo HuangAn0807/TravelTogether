@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import HistoryItem from './components/HistoryItem.vue';
 import Waterfall from "@/components/waterfall/index.vue";
 import { useSearchHistoryStore } from '@/stores/searchHistoryStore';
+import UserItem from '@/views/follow/components/UserItem.vue';
 // 搜索数据及方法
 const {searchHistoryList,setSearchHistoryList,clearSearchHistoryList,deleteSearchHistory} = useSearchHistoryStore()
 const router = useRouter()
@@ -11,6 +12,19 @@ const searchValue = ref('')// 搜索框内容
 const show = ref(false)// 显示删除按钮
 const showSearch = ref(true)//显示历史记录
 const active = ref(0)//当前显示内容的标签页索引
+const list = ref([
+  {
+    isFollow:false,
+    intro:'这是简介',
+    username:'小明',
+    avatar:'https://img.yzcdn.cn/vant/cat.jpeg'
+  },
+  {
+    isFollow:true,
+    username:'张三',
+    avatar:'https://img.yzcdn.cn/vant/cat.jpeg'
+  }
+])
 // 搜索
 const onSearch = () => {
     setSearchHistoryList(searchValue.value)// 存储搜索历史
@@ -47,10 +61,21 @@ const changeSearchShow = () => {
 const fn = () => {
     console.log(123);
 }
+// 关注点击事件
+const followChange = (index:number,newVal:boolean) => {
+  list.value[index].isFollow = newVal
+  // 根据当前的tab栏进行发不同的请求
+  if(active.value === 1){
+    console.log('回关');
+    
+  }else{
+    console.log('关注');
+  }
+}
 </script>
 <template>
-  <div class="page-content">
-    <van-nav-bar  left-arrow size="6vw" @click-left="goBack"> 
+  <div class="">
+    <van-nav-bar  left-arrow size="6vw" @click-left="goBack" class="top"> 
         <template #title>
             <van-search 
             v-model.trim="searchValue" 
@@ -100,7 +125,21 @@ const fn = () => {
                 <Waterfall :request-data="fn"/>
             </van-tab>
             <van-tab :title="'用户 '">
-               
+                <UserItem 
+                v-for="(item,index) in list" 
+                @followChange="followChange(index,$event)" 
+                :isFollow="item.isFollow"
+                :username="item.username"
+                :avatar="item.avatar"
+                >
+                    <template #fans>
+                        粉丝<span>{{ 7 }}</span>
+                        <div>id: <span>123456</span> </div>
+                    </template>
+                    <template #follow>
+                        {{ item.isFollow ? '已关注' : '关注' }}
+                    </template>
+                </UserItem>
             </van-tab>
         </van-tabs>
     </div>
@@ -120,6 +159,9 @@ const fn = () => {
 }
 :deep(.van-nav-bar__left){
     padding-left: 0;
+}
+.top{
+    padding: 10px;
 }
 .search{
     padding: 10px;

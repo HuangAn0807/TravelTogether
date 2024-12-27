@@ -3,7 +3,9 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router';
 const router = useRouter()
 const {isFollow} = defineProps<{
-    isFollow:boolean
+    isFollow:boolean,//是否关注
+    username:string,//用户名
+    avatar:string,//头像
 }>()
 // 定义followChange将isFollow的值取反传给父组件
 const emit = defineEmits(['followChange'])
@@ -26,17 +28,19 @@ router.push({
         <van-image 
         fit="cover"
         round
-        src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
+        :src="avatar"
         class="user-img"
         />
         <div class="info" >
             <div class="user-name">
-                羊毛卷卷 羊毛卷卷 羊
+                {{ username }}
             </div>
             <div  class="intro">
+                <!-- 简介 -->
                 <slot name="intro"></slot>
             </div>
             <div class="fans">
+                <!-- 粉丝数 -->
                 <slot name="fans"></slot>
             </div>
         </div>
