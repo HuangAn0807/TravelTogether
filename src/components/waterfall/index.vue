@@ -1,8 +1,7 @@
 <script setup lang='ts' name=''>
-import {ref} from 'vue'
+import {ref,onMounted} from 'vue'
 import type {WaterfallData} from './type'
 import Card from '@/components/card/index.vue'
-
 // 获取请求数据的方法
 const {requestData} = defineProps<{
     requestData:Function
@@ -137,6 +136,7 @@ const onRefresh = () => {
 <template>
   <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
         <van-list
+        ref="list"
         v-model:loading="loading"
         :immediate-check="false"
         v-model:error="error"
@@ -144,14 +144,14 @@ const onRefresh = () => {
         :finished="finished"
         @load="loadMoreItems"
         :offset="300">
-            <Card 
-            :id="`card${item.id}`" 
-            v-for="item in data" 
-            :cardData="item" 
-            :arr="arr" 
-            :key="item.id"  
-            />
-        </van-list>  
+              <Card 
+              :id="`card${item.id}`" 
+              v-for="item in data" 
+              :cardData="item" 
+              :arr="arr" 
+              :key="item.id"  
+              />
+        </van-list> 
   </van-pull-refresh>
 </template>
 

@@ -25,7 +25,6 @@ const showCDialog = () => {
   });
 }
 const fn = () => {
-  console.log(123);
   
 }
 </script>

@@ -59,7 +59,7 @@ const changeSearchShow = () => {
     showSearch.value = !showSearch.value
 }
 const fn = () => {
-    console.log(123);
+  
 }
 // 关注点击事件
 const followChange = (index:number,newVal:boolean) => {

@@ -55,7 +55,7 @@ const onLoad = () => {
         if(pois.value.length>=cityPoisCount.value){
             finished.value = true
         }  
-    },1000)
+    },300)
 }
 // 下拉刷新
 const onRefresh = () => {

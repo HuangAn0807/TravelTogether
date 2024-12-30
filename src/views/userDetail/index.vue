@@ -14,7 +14,7 @@ const goBack = () => {
     router.back()
 }
 const fn = () => {
-    console.log(123);
+   
 }
 </script>
 <template>
