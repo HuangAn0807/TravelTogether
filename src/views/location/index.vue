@@ -1,4 +1,4 @@
-<script setup lang='ts' name=''>
+<script setup lang='ts' name='Location'>
 import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import useCity from './hooks/getCity'

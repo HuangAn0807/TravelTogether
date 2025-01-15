@@ -1,4 +1,4 @@
-<script setup lang='ts' name=''>
+<script setup lang='ts' name='User'>
 import {ref } from "vue";
 import UserInfo from "@/components/UserInfo.vue";
 import { showConfirmDialog} from 'vant';
@@ -40,18 +40,18 @@ const fn = () => {
         <van-tab  title="笔记">
             <van-tabs class="son" v-model:active="activeNote" >
                 <van-tab title="公开" class="tab"> 
-                    <Waterfall :request-data="fn"/>
+                    <Waterfall :request-fun="fn"/>
                 </van-tab>
                 <van-tab title="私密"  class="tab">
-                  <Waterfall :request-data="fn"/>
+                  <Waterfall :request-fun="fn"/>
                 </van-tab>
             </van-tabs>
         </van-tab>
         <van-tab  title="收藏" class="tab">
-          <Waterfall :request-data="fn"/>
+          <Waterfall :request-fun="fn"/>
         </van-tab>
         <van-tab  title="赞过"  class="tab">
-          <Waterfall :request-data="fn"/>
+          <Waterfall :request-fun="fn"/>
         </van-tab>
       </van-tabs>
     </div>

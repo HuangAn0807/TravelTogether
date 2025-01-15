@@ -1,10 +1,10 @@
-<script setup lang='ts' name=''>
+<script setup lang='ts' name='Waterfall'>
 import {ref,onMounted} from 'vue'
 import type {WaterfallData} from './type'
 import Card from '@/components/card/index.vue'
 // 获取请求数据的方法
-const {requestData} = defineProps<{
-    requestData:Function
+const {requestFun} = defineProps<{
+    requestFun:Function
 }>()
 const num = ref(11)
 // 数据是否加载中
@@ -98,6 +98,7 @@ const data  = ref<WaterfallData>([
     like: 1
   },
 ])
+
 // 瀑布流布局
 const arr = ref<number[]>([10,10])
 const loadMoreItems = () => {
@@ -115,7 +116,7 @@ const loadMoreItems = () => {
             like: 1
           });
         }
-        requestData()
+        requestFun()
         // 数据全部加载完成
         if (data.value.length >=60) {
           finished.value = true;
@@ -134,7 +135,7 @@ const onRefresh = () => {
  };
 </script>
 <template>
-  <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+    <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
         <van-list
         ref="list"
         v-model:loading="loading"
@@ -152,7 +153,7 @@ const onRefresh = () => {
               :key="item.id"  
               />
         </van-list> 
-  </van-pull-refresh>
+    </van-pull-refresh>
 </template>
 
 <style scoped lang='scss'>

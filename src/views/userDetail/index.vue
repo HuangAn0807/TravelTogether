@@ -1,4 +1,4 @@
-<script setup lang='ts' name=''>
+<script setup lang='ts' name='UserDetail'>
 import UserInfo from '@/components/UserInfo.vue'
 import Profile from "@/components/profile/index.vue";
 import Waterfall from '@/components/waterfall/index.vue'
@@ -35,7 +35,7 @@ const fn = () => {
     </UserInfo>
     <van-tabs v-model:active="active" sticky  shrink>
         <van-tab  title="笔记" class="tab">
-            <Waterfall :request-data="fn"/>
+            <Waterfall :request-fun="fn"/>
         </van-tab>
       </van-tabs>
 </div>

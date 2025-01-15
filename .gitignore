@@ -28,4 +28,4 @@ coverage
 *.sw?
 
 *.tsbuildinfo
-*.rar
+dist.rar

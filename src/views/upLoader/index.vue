@@ -1,4 +1,4 @@
-<script setup lang='ts' name=''>
+<script setup lang='ts' name='UpLoader'>
 import { ref, watch } from 'vue';
 import { useRouter,useRoute } from 'vue-router';
 import type { FormT } from './type';
@@ -20,7 +20,7 @@ const route = useRoute()
 const locationInfo = ref(route.query)
 // 返回上一页
 const goBack = () => {
-    router.push('/home')
+    router.back()
 }
 const onSelect = (val:{name:string,value:string}) => {
     form.value.privacy = val.value

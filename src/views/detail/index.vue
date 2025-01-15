@@ -1,8 +1,8 @@
-<script setup lang='ts' name=''>
+<script setup lang='ts' name='Detail'>
 import { useRoute,useRouter } from 'vue-router';
 import  Comment from './components/Comment.vue';
 import {emitter} from '@/utils/emitter';
-import {ref} from 'vue'
+import {onMounted, ref} from 'vue'
 import type { Reply,Form,CommentT,ChangeLike} from './type';
 const route = useRoute();
 const router = useRouter()
@@ -144,8 +144,6 @@ const changeLike:ChangeLike = (count,icon) => {
     }else if(icon===starIcon.value){
         collect.value = count
     }
-   
-   
 }
 </script>
 <template>

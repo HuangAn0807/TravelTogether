@@ -1,4 +1,4 @@
-<script setup lang='ts' name=''>
+<script setup lang='ts' name='EditInfo'>
 import {computed, reactive,ref} from 'vue'
 import {useRouter } from 'vue-router';
 import type {Form,Select} from './type'

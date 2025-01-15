@@ -45,8 +45,11 @@ importers:
       '@tsconfig/node22':
         specifier: ^22.0.0
         version: 22.0.0
+      '@types/amap-js-api':
+        specifier: ^1.4.16
+        version: 1.4.16
       '@types/node':
-        specifier: ^22.9.0
+        specifier: ^22.10.0
         version: 22.10.0
       '@vant/auto-import-resolver':
         specifier: ^1.2.1
@@ -618,6 +621,9 @@ packages:
 
   '@tsconfig/node22@22.0.0':
     resolution: {integrity: sha512-twLQ77zevtxobBOD4ToAtVmuYrpeYUh3qh+TEp+08IWhpsrIflVHqQ1F1CiPxQGL7doCdBIOOCF+1Tm833faNg==}
+
+  '@types/amap-js-api@1.4.16':
+    resolution: {integrity: sha512-gfcEswuU4GNRdGAh74FhxfLlU6qxmVIJYPf3HV0uKucCWQ9iSr8TonDhqBvHVmmQEY60K+UAeIh0YLwKo/jpFQ==}
 
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
@@ -2080,6 +2086,8 @@ snapshots:
   '@sindresorhus/merge-streams@2.3.0': {}
 
   '@tsconfig/node22@22.0.0': {}
+
+  '@types/amap-js-api@1.4.16': {}
 
   '@types/estree@1.0.6': {}
 
