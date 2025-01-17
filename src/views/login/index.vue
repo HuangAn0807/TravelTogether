@@ -1,20 +1,35 @@
 <script setup lang='ts' name=''>
 import type { FieldRule } from 'vant';
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { login, getCode } from '@/api/index'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/userStore'
 interface Form {
   phone: string;
   password?: string;
   code?: string;
+  userLoginType: number
 }
+const router = useRouter()
+
+const disabled = ref(false)//验证码按钮是否禁用
+
+const codeText = ref('发送验证码')//验证码按钮文字
+
+const loginMethod = ref(true)//登录方式
+
 const formRef = ref()
+
 const form = ref<Form>({
   phone: '',
+  userLoginType: computed(() => {
+    return loginMethod.value ? 0 : 1
+  }).value
 })
-const disabled = ref(false)//验证码按钮是否禁用
-const codeText = ref('发送验证码')//验证码按钮文字
-const loginMethod = ref(true)//登录方式
+
+const { setUserInfo, setToken } = useUserStore()
 // 获取验证码
-const sendCode = () => {
+const sendCode = async () => {
   disabled.value = true
   let time = 60
   let timer = -1
@@ -29,12 +44,18 @@ const sendCode = () => {
       codeText.value = time + 's后可重新发送'
     }
   }, 1000)
+  const res = await getCode({ phone: form.value.phone })
 }
 
 // 表单提交
 const onSubmit = async () => {
-  await formRef.value.validate().then(() => {
-
+  await formRef.value.validate().then(async () => {
+    const res = await login(form.value)
+    if (res.data.code == 200) {
+      // setUserInfo(res.data.data)
+      setToken(res.data.data)
+      router.push('/home')
+    }
   })
 }
 
@@ -42,7 +63,10 @@ const onSubmit = async () => {
 const changeLoginMethod = () => {
   loginMethod.value = !loginMethod.value
   form.value = {
-    phone: ''
+    phone: '',
+    userLoginType: computed(() => {
+      return loginMethod.value ? 0 : 1
+    }).value
   }
 }
 const rules = {
@@ -112,7 +136,7 @@ const rules = {
         :rules="rules.phone as FieldRule[]" />
       <van-field v-model.trim="form.password" type="password" clearable label="密码" left-icon="lock" placeholder="请输入密码"
         v-if="!loginMethod" :rules="rules.password as FieldRule[]" />
-      <van-field v-model.trim="form.code" type="password" clearable label="验证码" placeholder="请输入验证码" v-if="loginMethod"
+      <van-field v-model.trim="form.code" type="text" clearable label="验证码" placeholder="请输入验证码" v-if="loginMethod"
         :rules="rules.code as FieldRule[]">
         <template #left-icon>
           <svg class="icon" aria-hidden="true">
@@ -128,7 +152,7 @@ const rules = {
       <van-button type="danger" class="submit" @click="onSubmit">登录</van-button>
       <div class="bottom">
         <div type="text">首次登录将自动注册账号</div>
-        <div type="text" @click="changeLoginMethod">{{ loginMethod ? '验证码登录' : '账号密码登录' }}</div>
+        <div type="text" @click="changeLoginMethod">{{ loginMethod ? '账号密码登录' : '验证码登录' }}</div>
       </div>
     </van-form>
   </div>

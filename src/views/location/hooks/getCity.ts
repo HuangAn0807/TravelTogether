@@ -19,7 +19,7 @@ export default function useCity() {
   })
   const myIP = ref('')
   // 定义API Key
-  const ak = 'F2e88iaDoQlbLLnLeHREjf11OMNwEj0v'
+  const ak = 'tFO77sUDV25YzNZqu4yZRRkxhANIPOKo'
   /**
    *   获取当前城市信息
    */
