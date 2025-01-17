@@ -1,4 +1,4 @@
-<script setup lang='ts' name=''>
+<script setup lang='ts' name='Follow'>
 import { ref } from 'vue'
 import { useRoute,useRouter } from 'vue-router';
 import UserItem from './components/UserItem.vue';

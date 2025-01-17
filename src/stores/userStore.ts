@@ -2,15 +2,15 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 export const useUserStore = defineStore("user", () => {
     const token = ref("");
-    const userInfo=ref({
+    const userInfo = ref({
 
     });
     // 设置token
-    const setToken = (value:string) => {
+    const setToken = (value: string) => {
         token.value = value
     };
     // 设置用户信息
-    const setUserInfo = (value:object) => {
+    const setUserInfo = (value: object) => {
         userInfo.value = value
     };
     return {
@@ -19,7 +19,7 @@ export const useUserStore = defineStore("user", () => {
         setToken,
         setUserInfo
     }
-},{
-    persist:true
-  }
+}, {
+    persist: true
+}
 )

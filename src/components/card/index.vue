@@ -1,4 +1,4 @@
-<script setup lang='ts' name=''>
+<script setup lang='ts' name='Card'>
 import {ref,onMounted,computed, nextTick} from "vue";
 import { useRouter } from "vue-router";
 const router = useRouter()
@@ -114,6 +114,7 @@ const changeLike = (count:number) => {
           display: -webkit-box;
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 2;
+            line-clamp: 2;
           text-overflow: ellipsis;
           overflow: hidden;
           padding: 10px;

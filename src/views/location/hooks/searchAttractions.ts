@@ -20,9 +20,9 @@ export default function useSearchAttractions() {
         const params = ref({
             key: '7527e8d695b957eed8793bb60651869a',
             keywords: city ,
-            types: '旅游景点|公园广场|公园|动物园|植物园|水族馆|城市广场|公园内部设施|风景名胜|世界遗产|国家级景点|省级景点|纪念馆|寺庙道观|教堂|回教寺|海滩|观景点|红色景区',
+            types: '旅游景点|风景名胜|国家级景点|省级景点|公园广场|公园|动物园|植物园|水族馆|城市广场|公园内部设施|世界遗产|纪念馆|寺庙道观|教堂|回教寺|海滩|观景点|红色景区',
             extensions: 'all',
-            page_size:'20',
+            page_size:'15',
             page_index:`${num}`
           })
           try {

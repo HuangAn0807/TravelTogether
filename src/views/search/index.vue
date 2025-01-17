@@ -1,4 +1,4 @@
-<script setup lang='ts' name=''>
+<script setup lang='ts' name='Sraech'>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import HistoryItem from './components/HistoryItem.vue';
@@ -59,7 +59,7 @@ const changeSearchShow = () => {
     showSearch.value = !showSearch.value
 }
 const fn = () => {
-    console.log(123);
+  
 }
 // 关注点击事件
 const followChange = (index:number,newVal:boolean) => {
@@ -122,7 +122,7 @@ const followChange = (index:number,newVal:boolean) => {
     <div v-if="!showSearch">
         <van-tabs v-model:active="active" sticky>
             <van-tab :title="'笔记 '" class="tab">
-                <Waterfall :request-data="fn"/>
+                <Waterfall :request-fun="fn"/>
             </van-tab>
             <van-tab :title="'用户 '">
                 <UserItem 

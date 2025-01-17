@@ -1,77 +1,72 @@
 <script setup lang='ts' name=''>
 import Capsule from "./capsule/index.vue";
 import Profile from "./profile/index.vue";
-const {sex} = defineProps<{
-  sex:number,
+import ceshipng from '../assets/images/ceshi.png'
+const { sex } = defineProps<{
+  sex: number,
 }>()
 </script>
 <template>
-  <div >
+  <div>
     <div class="top">
       <header class="header">
-       <slot name="setting"></slot> 
+        <slot name="setting"></slot>
       </header>
-               <!-- 个人信息 -->
+      <!-- 个人信息 -->
       <div class="user-info">
-        <van-image 
-        round
-        fit="cover"
-        width="100px"
-        height="100px"
-          src="src/assets/images/ceshi.png"
-          class="user-img"
-          />
-          <div class="right">
-            <div class="user-name">
-              张三张三张三
-            </div>
-            <div class="user-id">
-              <div>id: 12323412</div>
-              <div>IP属地：深圳</div>
-            </div>
+        <van-image round fit="cover" width="100px" height="100px" :src="ceshipng" class="user-img" />
+        <div class="right">
+          <div class="user-name">
+            张三张三张三
           </div>
+          <div class="user-id">
+            <div>id: 12323412</div>
+            <div>IP属地：深圳</div>
+          </div>
+        </div>
       </div>
       <!-- 个人简介 -->
-       <div class="intro">
+      <div class="intro">
         这里是简介，这里是简介，这里是简介这里是简介这里是简介这里是简介这里是简介
         这里是简介，这里是简介，这里是简介这里是简介这里是简介这里是简介这里是简介
         这里是简介，这里是简介，这里是简介这里是简介这里是简介这里是简介这里是简介
         这里是简介，这里是简介，这里是简介这里是简介这里是简介这里是简介这里是简介
-       </div>
-       <div class="label">
+      </div>
+      <div class="label">
         <!-- 性别年龄 -->
         <Capsule>
-            <template #default>
-                <svg class="icon" aria-hidden="true">
-                <use v-if="sex==1" xlink:href="#icon-xingbienan"></use>
-                <use v-if="sex==2" xlink:href="#icon-xingbienv"></use>
+          <template #default>
+            <svg class="icon" aria-hidden="true">
+              <use v-if="sex == 1" xlink:href="#icon-xingbienan"></use>
+              <use v-if="sex == 2" xlink:href="#icon-xingbienv"></use>
             </svg>
             <!-- 年龄 -->
             <span>22</span>
-            </template>
+          </template>
         </Capsule>
         <!-- 所在城市 -->
         <Capsule :text="'广东深圳'"></Capsule>
-       </div>
-       <!-- 关注 粉丝 收藏  -->
-      <slot> 
-        <Profile/>
+      </div>
+      <!-- 关注 粉丝 收藏  -->
+      <slot>
+        <Profile />
       </slot>
     </div>
-   
-</div>
+
+  </div>
 </template>
 
 <style scoped lang='scss'>
 .icon {
-  margin-right:8px;
+  margin-right: 8px;
   width: 1.2em;
   height: 1.2em;
   vertical-align: middle;
   fill: currentColor;
   overflow: hidden;
 }
-.top::after{
+
+.top::after {
   position: absolute;
   z-index: -1;
   left: 0;
@@ -81,8 +76,9 @@ const {sex} = defineProps<{
   height: 100%;
   background: rgba(9, 8, 8, 0.6);
 }
-.top{
-  padding-bottom:10px ;
+
+.top {
+  padding-bottom: 10px;
   position: relative;
   z-index: 100;
   width: 100%;
@@ -92,35 +88,42 @@ const {sex} = defineProps<{
   // background: rgba(9, 8, 8, 0.8);
   background-image: url('https://preview.qiantucdn.com/meijing/73/20/58/46T58PICIUhqnC92dkBmI_PIC2018.jpg!qt_w320');
   background-size: cover;
+
   // box-sizing: border-box;
-  .header{
+  .header {
     padding: 10px 10px 20px 10px;
     width: 100%;
     height: 10vw;
-    .setting{
-    margin-left: calc(100% - 12vw);
+
+    .setting {
+      margin-left: calc(100% - 12vw);
     }
   }
-  .user-info{
+
+  .user-info {
     display: flex;
     align-items: center;
     padding: 10px;
-    .right{
+
+    .right {
       margin-left: 20px;
       color: #ede8e8;
-      .user-name{
+
+      .user-name {
         width: calc(100vw - 140px);
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
         font-size: 1.5em;
       }
-      .user-id{
+
+      .user-id {
         color: rgb(143, 133, 141);
       }
     }
   }
-  .intro{
+
+  .intro {
     padding: 10px;
     height: 4em;
     max-height: 4em;
@@ -130,36 +133,43 @@ const {sex} = defineProps<{
     text-overflow: ellipsis;
     overflow: hidden;
   }
-  .label{
+
+  .label {
     display: flex
   }
-  .edit, .sex{
-      width: 100px;
-      height: 2em;
-      line-height: 2em;
-      background-color:#736464 ;
-      border-radius: 1em; 
-    }
-    .sex{
-      margin: 10px;
-      padding: 0 10px;
-      min-width: 2em;
-      width:fit-content;
+
+  .edit,
+  .sex {
+    width: 100px;
+    height: 2em;
+    line-height: 2em;
+    background-color: #736464;
+    border-radius: 1em;
   }
-  .follow{
-        width: 80px;
-        height: 2em;
-        line-height: 2em;
-        border-radius: 1em;
-        text-align: center;
-        font-weight: 500;
-    }
-    .red{
-        border: 1px solid #e10a2a;
-        color: #e10a2a;
-    }
-    .black{
-        border: 1px solid #898989;
-    }
+
+  .sex {
+    margin: 10px;
+    padding: 0 10px;
+    min-width: 2em;
+    width: fit-content;
+  }
+
+  .follow {
+    width: 80px;
+    height: 2em;
+    line-height: 2em;
+    border-radius: 1em;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  .red {
+    border: 1px solid #e10a2a;
+    color: #e10a2a;
+  }
+
+  .black {
+    border: 1px solid #898989;
+  }
 }
 </style>

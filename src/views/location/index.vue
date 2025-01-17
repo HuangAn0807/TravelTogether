@@ -1,4 +1,4 @@
-<script setup lang='ts' name=''>
+<script setup lang='ts' name='Location'>
 import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import useCity from './hooks/getCity'
@@ -55,7 +55,7 @@ const onLoad = () => {
         if(pois.value.length>=cityPoisCount.value){
             finished.value = true
         }  
-    },1000)
+    },300)
 }
 // 下拉刷新
 const onRefresh = () => {

@@ -2,8 +2,7 @@
  export type CityInfo = {
     city: string,
     citycode: string,
-    district: string,
-    abcode: string,
+    province: string,
 }
 // 定义景点列表类型
 export type ScenicSpotInfo = {
