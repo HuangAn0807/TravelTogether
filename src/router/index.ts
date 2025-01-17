@@ -12,7 +12,7 @@ const router = createRouter({
       children: [
         {
           path: '/home',
-          name: 'Home',
+          name: 'home',
           meta: { keepAlive: true },
           component: () => import('@/views/home/index.vue'),
         },
@@ -99,6 +99,8 @@ router.beforeEach(async (to, from) => {
   if (!token && to.name !== 'login') {
     // 将用户重定向到登录页面
     return { name: 'login' }
+  } else if (token && to.name === 'login') {
+    return { name: 'home' }
   } else {
     return true
   }
