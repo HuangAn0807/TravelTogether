@@ -18,8 +18,7 @@ export default function useCity() {
     province: '',
   })
   const myIP = ref('')
-  // 定义API Key
-  const ak = 'tFO77sUDV25YzNZqu4yZRRkxhANIPOKo'
+
   /**
    *   获取当前城市信息
    */
@@ -27,14 +26,12 @@ export default function useCity() {
     await axios.get('https://myip.ipip.net/').then((data) => {
       myIP.value = data.data.slice(6)
       myIP.value = myIP.value.split(' ')[0]
+      // 获取当前省份和城市
+      cityInfo.value.province = data.data.slice(28).split('国 ')[0].slice(0, 4)
+      cityInfo.value.city = data.data.slice(28).split(`${cityInfo.value.province} `)[0].slice(4, 8)
     }).catch((err) => {
       console.log(err)
     })
-    const res = await axios.get(`http://journeybook.cn/baiduMap/location/ip?ip=${myIP.value}&ak=${ak}`)
-    cityInfo.value.citycode = res.data.adcode
-    cityInfo.value.city = res.data.city
-    cityInfo.value.province = res.data.province
-    console.log(res.data);
 
   }
   return {

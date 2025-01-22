@@ -27,7 +27,7 @@ const form = ref<Form>({
   }).value
 })
 
-const { setUserInfo, setToken } = useUserStore()
+const { setToken } = useUserStore()
 // 获取验证码
 const sendCode = async () => {
   disabled.value = true
@@ -44,7 +44,7 @@ const sendCode = async () => {
       codeText.value = time + 's后可重新发送'
     }
   }, 1000)
-  const res = await getCode({ phone: form.value.phone })
+  await getCode({ phone: form.value.phone })
 }
 
 // 表单提交
@@ -159,15 +159,6 @@ const rules = {
 </template>
 
 <style scoped lang='scss'>
-.icon {
-  margin-right: 8px;
-  width: 1.2em;
-  height: 1.2em;
-  vertical-align: middle;
-  fill: currentColor;
-  overflow: hidden;
-}
-
 .header {
   margin-top: 20%;
   margin-bottom: 10%;
