@@ -57,7 +57,7 @@
   margin: 0;
   font-weight: normal;
   /* // 隐藏滚动条 */
-  -ms-overflow-style: none;  /* IE 10+ 和 Edge */
+  -ms-overflow-style: none; /* IE 10+ 和 Edge */
   scrollbar-width: none; /* Firefox 64+ */
   -webkit-overflow-scrolling: touch; /* 在移动设备上启用原生滚动 */
   scroll-behavior: smooth;
@@ -67,34 +67,30 @@ body {
   min-height: 100vh;
   color: var(--color-text);
   background: var(--color-background);
-  transition:
-    color 0.5s,
-    background-color 0.5s;
+  transition: color 0.5s, background-color 0.5s;
   line-height: 1.6;
-  font-family:
-    Inter,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    'Fira Sans',
-    'Droid Sans',
-    'Helvetica Neue',
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   font-size: 15px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.page-content{
+.page-content {
   width: 100vw;
   height: 100vh;
   padding: 10px;
   background-color: #fff;
 }
-.tab{
+.tab {
   background-color: #f1f4f6;
+}
+.icon {
+  margin-right: 8px;
+  width: 1.2em;
+  height: 1.2em;
+  vertical-align: middle;
+  fill: currentColor;
+  overflow: hidden;
 }

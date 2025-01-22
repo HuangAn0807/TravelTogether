@@ -2,24 +2,53 @@
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import type { FieldRule } from 'vant';
+import { getCode, resetPassword } from '@/api';
+import { useUserStore } from '@/stores/userStore';
 const router = useRouter()
+const { setToken } = useUserStore()
 interface Form {
   phone: string;
   password: string;
-  code?: string;
-  reconfirmPassword?:string
+  code: string;
 }
-const form  = ref<Form>({
+const form = ref<Form>({
   phone: '',
   password: '',
   code: '',
-  reconfirmPassword:''
 })
+const disabled = ref(false)//验证码按钮是否禁用
+
+const codeText = ref('发送验证码')//验证码按钮文字
+
 const goBack = () => {
-    router.back()
+  router.back()
 }
-const onSubmit = () => {
-    goBack()
+const onSubmit = async () => {
+  const res = await resetPassword(form.value)
+  if (res.data.code == '200') {
+    setToken('')
+    //@ts-ignore
+    showSuccessToast('修改密码成功！请重新登录');
+    router.push({ name: 'login' })
+  }
+
+}
+const sendCode = async () => {
+  disabled.value = true
+  let time = 60
+  let timer = -1
+  codeText.value = time + 's后可重新发送'
+  timer = setInterval(() => {
+    if (time == 1) {
+      clearInterval(timer)
+      disabled.value = false
+      codeText.value = '发送验证码'
+    } else {
+      time--
+      codeText.value = time + 's后可重新发送'
+    }
+  }, 1000)
+  await getCode({ phone: form.value.phone })
 }
 const rules = {
   phone: [
@@ -59,7 +88,7 @@ const rules = {
       message: '请再次输入密码',
     },
     {
-      validator: (value:any, rule:any) => {
+      validator: (value: any, rule: any) => {
         return value === form.value.password;
       },
       message: '两次输入的密码不一致',
@@ -69,56 +98,47 @@ const rules = {
 </script>
 <template>
   <div class="page-content">
-    <van-nav-bar
-    title="修改密码"
-    left-arrow
-    @click-left="goBack"
-    />
-    <van-form >
-      <van-field
-        v-model.trim="form.phone"
-        label="手机号"
-        left-icon="phone-o"
-        placeholder="请输入手机号"
-        :rules="rules.phone as FieldRule[]" 
-        />
-        <van-field
-          v-model.trim="form.password"
-          type="password"
-          clearable
-          label="密码"
-          left-icon="lock"
-          placeholder="请输入密码"
-          :rules="rules.password as FieldRule[]" 
-        />
-        <van-field
-          v-model.trim="form.reconfirmPassword"
-          type="password"
-          clearable
-          label="确认密码"
-          left-icon="lock"
-          placeholder="请再次输入密码"
-          :rules="rules.reconfirmPassword as FieldRule[]" 
-        />
-          <van-button type="danger" class="submit" @click="onSubmit">确认</van-button>
+    <van-nav-bar title="修改密码" left-arrow @click-left="goBack" />
+    <van-form>
+      <van-field v-model.trim="form.phone" label="手机号" left-icon="phone-o" placeholder="请输入手机号"
+        :rules="rules.phone as FieldRule[]" />
+      <van-field v-model.trim="form.password" type="password" clearable label="密码" left-icon="lock" placeholder="请输入新密码"
+        :rules="rules.password as FieldRule[]" />
+      <van-field v-model.trim="form.code" type="text" clearable label="验证码" placeholder="请输入验证码"
+        :rules="rules.code as FieldRule[]">
+        <template #left-icon>
+          <svg class="icon" aria-hidden="true">
+            <use xlink:href="#icon-yanzhengma"></use>
+          </svg>
+        </template>
+        <template #button>
+          <van-button size="small" type="danger" @click="sendCode" :disabled="disabled">
+            {{ codeText }}
+          </van-button>
+        </template>
+      </van-field>
+      <van-button type="danger" class="submit" @click="onSubmit">确认</van-button>
     </van-form>
-</div>
+  </div>
 </template>
 
 <style scoped lang='scss'>
-:deep(.van-icon-arrow-left){
-    color: #000;
-    font-size: 6vw;
+:deep(.van-icon-arrow-left) {
+  color: #000;
+  font-size: 6vw;
 }
-:deep(.van-nav-bar__left){
-    padding-left: 0;
+
+:deep(.van-nav-bar__left) {
+  padding-left: 0;
 }
-:deep(.van-field){
-    height: 4em;
-  }
-.submit{
-    width: 80%;
-    margin: 20px 10%;
-    background-color: #e10a2a;
-  }
+
+:deep(.van-field) {
+  height: 4em;
+}
+
+.submit {
+  width: 80%;
+  margin: 20px 10%;
+  background-color: #e10a2a;
+}
 </style>

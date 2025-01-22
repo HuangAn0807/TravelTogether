@@ -25,3 +25,14 @@ export const getCode = (data: {
  * @returns 
  */
 export const logout = () => request.post('/auth/logout')
+
+/**
+ * 修改密码
+ * @param data 表单数据
+ * @returns 
+ */
+export const resetPassword = (data: {
+    phone: string;
+    password: string;
+    code: string;
+}) => request.post('/user/password/reset', data)
