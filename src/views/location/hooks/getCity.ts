@@ -27,8 +27,8 @@ export default function useCity() {
       myIP.value = data.data.slice(6)
       myIP.value = myIP.value.split(' ')[0]
       // 获取当前省份和城市
-      cityInfo.value.province = data.data.slice(28).split('国 ')[0].slice(0, 4)
-      cityInfo.value.city = data.data.slice(28).split(`${cityInfo.value.province} `)[0].slice(4, 8)
+      cityInfo.value.province = data.data.split('：')[2].split(' ')[1]
+      cityInfo.value.city = data.data.split('：')[2].split(' ')[2]
     }).catch((err) => {
       console.log(err)
     })

@@ -1,4 +1,5 @@
 import request from "@/utils/request";
+import axios from "axios";
 
 /**
  * 登录注册
@@ -10,7 +11,7 @@ export const login = (data: {
     password?: string;
     code?: string;
     userLoginType: number;
-}) => request.post('/auth/login', data)
+}) => axios.post('/api/auth/login', data)
 /**
  * 获取验证码
  * @param data 手机号
@@ -18,7 +19,7 @@ export const login = (data: {
  */
 export const getCode = (data: {
     phone: string;
-}) => request.post('/auth/verificationCode/send', data)
+}) => axios.post('/api/auth/verificationCode/send', data)
 /**
  * 退出登录
  * 

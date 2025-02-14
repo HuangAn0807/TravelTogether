@@ -1,8 +1,6 @@
 import axios, { type AxiosResponse } from 'axios'
 import { useUserStore } from '@/stores/userStore'
 import { useRouter } from 'vue-router';
-const router = useRouter()
-const userStore = useUserStore()
 interface ResponseData<T = any> {
   code: string;
   data: T;
@@ -19,6 +17,7 @@ const request = axios.create({
 })
 // 添加一个请求拦截器
 request.interceptors.request.use((config) => {
+  const userStore = useUserStore()
   const token = userStore.token
   if (token) {
     config.headers['Authorization'] = 'Bearer ' + token
@@ -39,19 +38,18 @@ request.interceptors.response.use((response: AxiosResponse<any, any>) => {
   //     对响应数据做点什么
   if (response.data.code == '200') {
     return response;
-  } else if (response.data.code == '401') {
-    userStore.setToken('')
-    router.push('/login')
   }
-  return Promise.reject(new Error(response.data.message) || '请求失败');
+  // @ts-ignore
+  return Promise.reject(showFailToast(response.data.message) || '请求失败');
 }, (error) => {
+  const userStore = useUserStore()
+  const router = useRouter()
   // 对响应错误做点什么
   if (error.response) {
     switch (error.response.status) {
-      case '401':
-        // 未授权，跳转到登录页
-        // userStore.setToken('')
-        // router.push('/login')
+      case 401:
+        userStore.setToken('')
+        location.href = '/login';
         break;
       case 403:
         // 权限不足

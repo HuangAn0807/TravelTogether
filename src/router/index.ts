@@ -99,8 +99,6 @@ router.beforeEach(async (to, from) => {
   if (!token && to.name !== 'login') {
     // 将用户重定向到登录页面
     return { name: 'login' }
-  } else if (token && to.name === 'login') {
-    return { name: 'home' }
   } else {
     return true
   }
