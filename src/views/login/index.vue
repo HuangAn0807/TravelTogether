@@ -55,6 +55,9 @@ const onSubmit = async () => {
       // setUserInfo(res.data.data)
       setToken(res.data.data)
       router.push('/home')
+    } else {
+      //@ts-ignore
+      showFailToast(res.message);
     }
   })
 }

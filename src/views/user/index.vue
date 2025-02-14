@@ -1,10 +1,11 @@
 <script setup lang='ts' name='User'>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import UserInfo from "@/components/UserInfo.vue";
 import Waterfall from "@/components/waterfall/index.vue";
 import { logout } from "@/api/index";
 import { useUserStore } from '@/stores/userStore'
 import { useRouter } from 'vue-router'
+import { getUser } from '@/api/user/index'
 const router = useRouter()
 const { setToken } = useUserStore()
 const active = ref(0)
@@ -14,6 +15,11 @@ const show = ref(false)
 const changeShow = () => {
   show.value = !show.value
 }
+onMounted(async () => {
+  const res = await getUser({ userId: null })
+  console.log(res.data.data);
+
+})
 // 退出登录
 const logOut = () => {
   // @ts-ignore
