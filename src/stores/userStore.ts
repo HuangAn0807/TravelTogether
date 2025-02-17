@@ -1,10 +1,44 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
+export type User = {
+    id: number,
+    journeyBookId: string,
+    nickname: string,
+    avatar: string,
+    birthday: string,//生日
+    age: number | undefined,
+    backgroundImg: string,//背景图
+    phone: string,//手机号
+    sex: number,//性别
+    introduction: string,//个人简介
+    createTime: string,
+    provincialCode: string,//省份编码
+    cityCode: string //城市编码
+    province: string,//ip所在省份
+}
 export const useUserStore = defineStore("user", () => {
+
     const token = ref("");
-    const userInfo = ref({
-        username: "",
+    const userInfo = ref<User>({
+        id: 0,
+        age: undefined,
+        journeyBookId: "",
+        nickname: "",
+        avatar: "",
+        birthday: "",
+        backgroundImg: "",
+        phone: "",
+        sex: 0,
+        introduction: "",
+        createTime: "",
+        provincialCode: "",
+        cityCode: '',
+        province: " "
     });
+    const district = ref("")
+    const setDistrict = (value: string) => {
+        district.value = value
+    }
     // 设置token
     const setToken = (value: string) => {
         token.value = value
@@ -16,8 +50,10 @@ export const useUserStore = defineStore("user", () => {
     return {
         token,
         userInfo,
+        district,
+        setDistrict,
         setToken,
-        setUserInfo
+        setUserInfo,
     }
 }, {
     persist: true

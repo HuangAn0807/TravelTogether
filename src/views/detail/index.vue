@@ -10,7 +10,7 @@ const router = useRouter()
 const input = ref<HTMLInputElement | null>(null)
 const detailForm = ref<DetailForm>()
 onMounted(async () => {
-    const res = await getNoteDetail({ id: '1888853964561055820' })
+    const res = await getNoteDetail({ id: '1890602325152628752' })
     detailForm.value = res.data.data as DetailForm
 })
 

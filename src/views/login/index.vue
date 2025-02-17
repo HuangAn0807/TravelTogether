@@ -4,12 +4,15 @@ import { computed, ref } from 'vue'
 import { login, getCode } from '@/api/index'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
+import { getUser } from '@/api/user/index'
 interface Form {
   phone: string;
   password?: string;
   code?: string;
   userLoginType: number
 }
+const { setToken, setUserInfo } = useUserStore()
+
 const router = useRouter()
 
 const disabled = ref(false)//验证码按钮是否禁用
@@ -27,7 +30,7 @@ const form = ref<Form>({
   }).value
 })
 
-const { setToken } = useUserStore()
+
 // 获取验证码
 const sendCode = async () => {
   disabled.value = true
@@ -54,6 +57,9 @@ const onSubmit = async () => {
     if (res.data.code == 200) {
       // setUserInfo(res.data.data)
       setToken(res.data.data)
+
+      const result = await getUser()
+      setUserInfo(result.data.data)
       router.push('/home')
     } else {
       //@ts-ignore
@@ -155,7 +161,7 @@ const rules = {
       <van-button type="danger" class="submit" @click="onSubmit">登录</van-button>
       <div class="bottom">
         <div type="text">首次登录将自动注册账号</div>
-        <div type="text" @click="changeLoginMethod">{{ loginMethod ? '账号密码登录' : '验证码登录' }}</div>
+        <div type="text" class="login" @click="changeLoginMethod">{{ loginMethod ? '账号密码登录' : '验证码登录' }}</div>
       </div>
     </van-form>
   </div>
@@ -201,6 +207,10 @@ h2 {
   padding: 0 20px;
   display: flex;
   justify-content: space-between;
+
+  .login {
+    color: #0a63e1;
+  }
 }
 
 :deep(.van-field) {

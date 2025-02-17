@@ -1,55 +1,54 @@
 <script setup lang='ts' name=''>
-import Capsule from "./capsule/index.vue";
-import Profile from "./profile/index.vue";
-import ceshipng from '../assets/images/ceshi.png'
-const { sex } = defineProps<{
-  sex: number,
+import Capsule from "../capsule/index.vue";
+import Profile from "../profile/index.vue";
+import { type User, useUserStore } from "@/stores/userStore";
+const { district } = useUserStore();
+const prop = defineProps<{
+  userInfo: User
 }>()
+
 </script>
 <template>
   <div>
-    <div class="top">
+    <div class="top" :style="{ backgroundImage: `url(${userInfo?.backgroundImg})` }">
       <header class="header">
         <slot name="setting"></slot>
       </header>
       <!-- 个人信息 -->
       <div class="user-info">
-        <van-image round fit="cover" width="100px" height="100px" :src="ceshipng" class="user-img" />
+        <van-image round fit="cover" width="100px" height="100px" :src="userInfo?.avatar" class="user-img" />
         <div class="right">
           <div class="user-name">
-            张三张三张三
+            {{ userInfo?.nickname }}
           </div>
           <div class="user-id">
-            <div>id: 12323412</div>
-            <div>IP属地：深圳</div>
+            <div>旅途号：{{ userInfo?.journeyBookId }}</div>
+            <div>IP属地：{{ userInfo?.province ?? '未知' }}</div>
           </div>
         </div>
       </div>
       <!-- 个人简介 -->
       <div class="intro">
-        这里是简介，这里是简介，这里是简介这里是简介这里是简介这里是简介这里是简介
-        这里是简介，这里是简介，这里是简介这里是简介这里是简介这里是简介这里是简介
-        这里是简介，这里是简介，这里是简介这里是简介这里是简介这里是简介这里是简介
-        这里是简介，这里是简介，这里是简介这里是简介这里是简介这里是简介这里是简介
+        {{ userInfo?.introduction ?? '这里什么都没有' }}
       </div>
       <div class="label">
         <!-- 性别年龄 -->
         <Capsule>
           <template #default>
             <svg class="icon" aria-hidden="true">
-              <use v-if="sex == 1" xlink:href="#icon-xingbienan"></use>
-              <use v-if="sex == 2" xlink:href="#icon-xingbienv"></use>
+              <use v-if="userInfo?.sex == 1" xlink:href="#icon-xingbienan"></use>
+              <use v-if="userInfo?.sex == 0" xlink:href="#icon-xingbienv"></use>
             </svg>
             <!-- 年龄 -->
-            <span>22</span>
+            <span>{{ userInfo?.age ?? '年龄是个秘密' }}</span>
           </template>
         </Capsule>
         <!-- 所在城市 -->
-        <Capsule :text="'广东深圳'"></Capsule>
+        <Capsule :text="district"></Capsule>
       </div>
       <!-- 关注 粉丝 收藏  -->
       <slot>
-        <Profile />
+        <Profile :userId="userInfo.id" />
       </slot>
     </div>
 
@@ -86,7 +85,7 @@ const { sex } = defineProps<{
   height: 40%;
   color: #aca9aa;
   // background: rgba(9, 8, 8, 0.8);
-  background-image: url('https://preview.qiantucdn.com/meijing/73/20/58/46T58PICIUhqnC92dkBmI_PIC2018.jpg!qt_w320');
+  // background-image: url('https://preview.qiantucdn.com/meijing/73/20/58/46T58PICIUhqnC92dkBmI_PIC2018.jpg!qt_w320');
   background-size: cover;
 
   // box-sizing: border-box;
@@ -125,7 +124,6 @@ const { sex } = defineProps<{
 
   .intro {
     padding: 10px;
-    height: 4em;
     max-height: 4em;
     display: -webkit-box;
     -webkit-box-orient: vertical;

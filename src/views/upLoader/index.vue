@@ -3,14 +3,14 @@ import { ref, watch, watchEffect } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { addNote, type Note, uploadFile } from '@/api/notes'
 import type { UploaderFileListItem } from 'vant';
-import { useUserStore } from '@/stores/userStore'
-const { userInfo } = useUserStore()
+import { useFilelistStore } from '@/stores/useFileStore'
+const { setFileList, fileList } = useFilelistStore()
 const show = ref(false)
 const actions = [
     { name: '公开可见', value: 0 },
     { name: '仅自己可见', value: 1 },
 ]
-const imageList = ref<UploaderFileListItem[]>((JSON.parse(localStorage.getItem('imageList') as string) || []))
+const imageList = ref<UploaderFileListItem[]>(fileList.length > 0 ? fileList : [])
 const router = useRouter()
 const route = useRoute()
 const locationInfo = ref(route.query)
@@ -26,21 +26,14 @@ const form = ref<Note>(JSON.parse(localStorage.getItem('form') as string) || {
 })
 watchEffect(() => {
     form.value.position = route.query.location as string
-    localStorage.setItem('imageList', JSON.stringify(imageList.value))
+    setFileList(imageList.value)
     localStorage.setItem('form', JSON.stringify(form.value))
 })
 
 // 返回上一页
 const goBack = () => {
-    localStorage.setItem('form', JSON.stringify({
-        title: '',
-        content: '',
-        imgUris: [],
-        type: 0,
-        position: '',
-        visible: 0,
-    }))
-    localStorage.setItem('imageList', JSON.stringify([]))
+    localStorage.removeItem('form')
+    setFileList([])
     router.push({ name: 'home' })
 }
 // 选择可见性
@@ -57,10 +50,8 @@ const publishNote = async () => {
     // 获取文件列表
     const images = imageList.value.map((item) => item.file)
     // 将文件上传返回的链接添加到form.value.imgUris中
-    for (let i = 0; i < images.length; i++) {
-
+    for (let i = 0; i < imageList.value.length; i++) {
         const res = await uploadFile({ file: images[i] })
-        console.log(i);
         if (res.data.code == '200') {
             form.value.imgUris.push(res.data.data)
         }
@@ -74,15 +65,8 @@ const publishNote = async () => {
         // 成功通知
         // @ts-ignore
         showNotify({ type: 'success', message: '发布成功' });
-        localStorage.setItem('form', JSON.stringify({
-            title: '',
-            content: '',
-            imgUris: [],
-            type: 0,
-            position: '',
-            visible: 0,
-        }))
-        localStorage.setItem('imageList', JSON.stringify([]))
+        localStorage.removeItem('form')
+        setFileList([])
         router.push({ name: 'home' })
     }
 }
@@ -120,6 +104,9 @@ const rules = {
                             type="textarea" maxlength="300" placeholder="请输入正文" show-word-limit />
                     </van-cell-group>
                     <van-cell-group>
+                        <!-- <KeepAlive>
+                            <component :is="currentComponent"></component>
+                        </KeepAlive> -->
                         <van-uploader v-model="imageList" :deletable="true" max-count="9" class="uploader"
                             preview-size="25.8vw" />
                     </van-cell-group>

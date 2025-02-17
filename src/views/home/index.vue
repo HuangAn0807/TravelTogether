@@ -2,7 +2,6 @@
 import { ref } from "vue";
 import { useRouter, } from "vue-router";
 import Waterfall from "@/components/waterfall/index.vue";
-import axios from "axios";
 
 const router = useRouter()
 const active = ref('discover')

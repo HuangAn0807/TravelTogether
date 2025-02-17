@@ -1,8 +1,8 @@
 <script setup lang='ts' name='Location'>
 import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
-import useCity from './hooks/getCity'
-import useSearchAttractions from "./hooks/searchAttractions";
+import useCity from '../../hooks/getCity'
+import useSearchAttractions from "../../hooks/searchAttractions";
 import PositionItem from "./components/PositionItem.vue";
 // 获取路由实例
 const router = useRouter()
@@ -16,18 +16,18 @@ const loading = ref(false)
 const finished = ref(false)
 // 获取第一页城市景点列表
 const number = ref(1)
-const {pois,cityPoisCount,searchAttractions} = useSearchAttractions()
+const { pois, cityPoisCount, searchAttractions } = useSearchAttractions()
 // 获取城市信息
-const {cityInfo,getLocation} = useCity()
+const { cityInfo, getLocation } = useCity()
 getLocation()
 // 当城市信息发生变化时请求该城市的景点数据
-watch(cityInfo.value,(val) => {
-   if(val){
-    cityInfo.value = val 
-    searchAttractions(cityInfo.value.city)
-   }
-    
-},{deep:true})
+watch(cityInfo.value, (val) => {
+    if (val) {
+        cityInfo.value = val
+        searchAttractions(cityInfo.value.city)
+    }
+
+}, { deep: true })
 
 let time = 0
 // 搜索地点
@@ -44,18 +44,18 @@ const goBack = () => {
 // 定义是否加载完成
 const onLoad = () => {
     loading.value = false
-    if(time){
+    if (time) {
         clearTimeout(time)
     }
     time = setTimeout(() => {
         number.value++
         // 加载景点数据
-        searchAttractions(search.value||cityInfo.value.city,number.value)
+        searchAttractions(search.value || cityInfo.value.city, number.value)
         // 当加载的景点数量大于等于城市景点数量时表示加载完成
-        if(pois.value.length>=cityPoisCount.value){
+        if (pois.value.length >= cityPoisCount.value) {
             finished.value = true
-        }  
-    },300)
+        }
+    }, 300)
 }
 // 下拉刷新
 const onRefresh = () => {
@@ -64,51 +64,39 @@ const onRefresh = () => {
     finished.value = false
     // 重置加载完成
     loading.value = false
-    searchAttractions(search.value||cityInfo.value.city,number.value)
+    searchAttractions(search.value || cityInfo.value.city, number.value)
     // 重置加载中
     refreshing.value = false
     // 获取当前城市的景点信息
 }
 </script>
 <template>
-  <div class="page-content page">
-    <div class="search">
-        <van-icon name="arrow-left" size="6vw"  @click="goBack"/>
-        <form action="/">
-        <van-search
-        class="input"
-            v-model="search"
-            shape="round"
-            :show-action="false"
-            placeholder="请输入地点关键词"
-            @search="onSearch"
-        />
-         </form>
+    <div class="page-content page">
+        <div class="search">
+            <van-icon name="arrow-left" size="6vw" @click="goBack" />
+            <form action="/">
+                <van-search class="input" v-model="search" shape="round" :show-action="false" placeholder="请输入地点关键词"
+                    @search="onSearch" />
+            </form>
+        </div>
+        <div class="scenicSpo-list">
+            <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+                <van-list v-model:loading="loading" loading-text="加载中..." :finished="finished" :immediate-check="false"
+                    offset="400" finished-text="没有更多了" @load="onLoad">
+                    <PositionItem v-if="pois" v-for="item in pois" :scenicSpotInfo="item" />
+                </van-list>
+            </van-pull-refresh>
+
+        </div>
     </div>
-   <div class="scenicSpo-list">
-    <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-        <van-list
-        v-model:loading="loading"
-        loading-text="加载中..."
-        :finished="finished"
-        :immediate-check="false"
-        offset="400"
-        finished-text="没有更多了"
-        @load="onLoad"
-        >
-            <PositionItem v-if="pois" v-for="item in pois" :scenicSpotInfo="item"/>
-        </van-list>
-    </van-pull-refresh>
-       
-   </div>
-</div>
 </template>
 
 <style scoped lang='scss'>
-.page{
+.page {
     padding: 0;
 }
-.search{
+
+.search {
     display: flex;
     justify-content: left;
     padding-left: 10px;
@@ -119,13 +107,15 @@ const onRefresh = () => {
     background-color: #fff;
     z-index: 100;
 }
-:deep(.van-search ){
-        margin-left: 20vw;
-    }
-.scenicSpo-list{
-   padding-top: 8vh;
-   padding-left: 20px;
-   min-height: 100%; 
-   height: auto;  
+
+:deep(.van-search) {
+    margin-left: 20vw;
+}
+
+.scenicSpo-list {
+    padding-top: 8vh;
+    padding-left: 20px;
+    min-height: 100%;
+    height: auto;
 }
 </style>
