@@ -22,6 +22,7 @@ export type CommentT = {
     avatar: string,
     children: CommentT[]
 }
+// 详情页表单
 export type DetailForm = {
     avatar: string,
     content: string,

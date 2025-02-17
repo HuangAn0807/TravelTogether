@@ -1,25 +1,30 @@
 <script setup lang='ts' name='User'>
-import { onMounted, ref } from "vue";
-import UserInfo from "@/components/UserInfo.vue";
+import { watchEffect, ref } from "vue";
+import UserInfo from "@/components/userInfo/index.vue";
 import Waterfall from "@/components/waterfall/index.vue";
 import { logout } from "@/api/index";
-import { useUserStore } from '@/stores/userStore'
+import { useUserStore, type User } from '@/stores/userStore'
+import useCity from '@/hooks/getCity'
 import { useRouter } from 'vue-router'
-import { getUser } from '@/api/user/index'
-const router = useRouter()
-const { setToken } = useUserStore()
+
 const active = ref(0)
 const activeNote = ref(0)
-const sex = ref(2)
 const show = ref(false)
 const changeShow = () => {
   show.value = !show.value
 }
-onMounted(async () => {
-  const res = await getUser({ userId: null })
-  console.log(res.data.data);
-
+const router = useRouter()
+const { setToken, userInfo } = useUserStore()
+const { getLocation, cityInfo } = useCity()
+// 根据当前ip查询所在地
+getLocation()
+// 获取ip属地
+watchEffect(() => {
+  if (cityInfo.value) {
+    userInfo.province = cityInfo.value.province
+  }
 })
+
 // 退出登录
 const logOut = () => {
   // @ts-ignore
@@ -44,7 +49,7 @@ const fn = () => {
 </script>
 <template>
   <div class="page">
-    <UserInfo :sex="sex" :is-follow="true">
+    <UserInfo :user-info="userInfo" :is-follow="true">
       <template #setting>
         <van-icon name="setting-o" class="setting" size="6vw" @click="changeShow" />
       </template>

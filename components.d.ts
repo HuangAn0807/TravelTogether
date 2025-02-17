@@ -13,7 +13,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Upvote: typeof import('./src/components/upvote/index.vue')['default']
-    UserInfo: typeof import('./src/components/UserInfo.vue')['default']
+    UserInfo: typeof import('./src/components/userInfo/index.vue')['default']
     VanActionSheet: typeof import('vant/es')['ActionSheet']
     VanArea: typeof import('vant/es')['Area']
     VanButton: typeof import('vant/es')['Button']

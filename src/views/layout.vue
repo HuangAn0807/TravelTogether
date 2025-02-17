@@ -1,6 +1,6 @@
 <script setup lang='ts' name='Layout'>
-defineOptions({name:'Layout'})
-import { useRouter} from "vue-router"; 
+defineOptions({ name: 'Layout' })
+import { useRouter } from "vue-router";
 const router = useRouter()
 const toPath = () => {
     router.push('/uploader')
@@ -8,14 +8,15 @@ const toPath = () => {
 </script>
 <template>
     <div class="page">
-        <RouterView ></RouterView>
-        <van-tabbar fixed class="footer" route  active-color="#e10a2a">
+        <RouterView>
+        </RouterView>
+        <van-tabbar fixed class="footer" route active-color="#e10a2a">
             <van-tabbar-item name="home" icon="home-o" :to="`/home`">
                 首页
             </van-tabbar-item>
-            <van-tabbar-item> 
-                <van-icon name="plus" class="plus" @click="toPath"/>
-            </van-tabbar-item>  
+            <van-tabbar-item>
+                <van-icon name="plus" class="plus" @click="toPath" />
+            </van-tabbar-item>
             <van-tabbar-item name="user" icon="contact" :to="`/user`">
                 我
             </van-tabbar-item>
@@ -23,17 +24,19 @@ const toPath = () => {
     </div>
 </template>
 
-<style scoped lang="scss" >
-.page{
+<style scoped lang="scss">
+.page {
     height: 100vh;
-    .plus{
+
+    .plus {
         border: none;
         color: red;
         background-color: #fff;
         font-size: 2em;
         line-height: 2em;
     }
-    .footer{
+
+    .footer {
         bottom: -1px;
     }
 }
