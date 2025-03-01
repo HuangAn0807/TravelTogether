@@ -12,23 +12,21 @@ const router = useRouter()
 const show = ref(false)
 const showArea = ref(false)
 const showDate = ref(false)
-const { userInfo, setUserInfo, setDistrict } = useUserStore()
+const { userInfo, setUserInfo, setDistrict, district: useDistrict } = useUserStore()
 const { getCity } = useCity()
-
-const regex = /(省|市|自治区|壮族|回族|特别行政区|维吾尔)/g;
-const district = ref('')// 显示地区
-if (userInfo.provincialCode && userInfo.cityCode) {
-  // 获取所在省份
-  getCity(userInfo.provincialCode).then((res: string) => {
-    district.value = res.replace(regex, ' ')
-    getCity(userInfo.cityCode).then((res: string) => {
-      district.value = district.value + res.replace(regex, ' ')
-      setDistrict(district.value)
-    })
-  })
-
-  // district.value = res + result
-}
+const district = ref(useDistrict)
+// const regex = /(省|市|自治区|壮族|回族|特别行政区|维吾尔)/g;
+// const district = ref('')// 显示地区
+// if (userInfo.provincialCode && userInfo.cityCode) {
+//   // 获取所在省份
+//   getCity(userInfo.provincialCode).then((res: string) => {
+//     district.value = res.replace(regex, ' ')
+//     getCity(userInfo.cityCode).then((res: string) => {
+//       district.value = district.value + res.replace(regex, ' ')
+//       setDistrict(district.value)
+//     })
+//   })
+// }
 const birthday = ref(userInfo?.birthday?.split('-') ?? [])//生日
 const avatar = ref<UploaderFileListItem[]>([])// 头像
 const backgroundImg = ref<UploaderFileListItem[]>([])// 背景图

@@ -1,9 +1,14 @@
 <script setup lang='ts' name=''>
 import { useRouter } from "vue-router";
 import ProfileItem from "@/views/user/components/ProfileItem.vue";
+import { onMounted, ref } from "vue";
+import { getUserCount } from "@/api";
 const router = useRouter()
 const { userId } = defineProps<{
-  userId: number
+  userId?: number,
+  fansTotal: number,
+  followTotal: number,
+  collectTotal: number
 }>()
 const toFollow = (type: number) => {
   router.push({ name: 'follow', query: { type, userId } })
@@ -11,9 +16,9 @@ const toFollow = (type: number) => {
 </script>
 <template>
   <div class="profile">
-    <ProfileItem text="关注" :number="123" @click="toFollow(0)"></ProfileItem>
-    <ProfileItem text="粉丝" :number="123" @click="toFollow(1)"></ProfileItem>
-    <ProfileItem text="收藏" :number="123"></ProfileItem>
+    <ProfileItem text="关注" :number="followTotal" @click="toFollow(0)"></ProfileItem>
+    <ProfileItem text="粉丝" :number="fansTotal" @click="toFollow(1)"></ProfileItem>
+    <ProfileItem text="收藏" :number="collectTotal"></ProfileItem>
     <slot>
       <div class="edit">
         <slot>

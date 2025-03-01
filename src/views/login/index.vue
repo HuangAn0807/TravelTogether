@@ -1,17 +1,17 @@
 <script setup lang='ts' name=''>
 import type { FieldRule } from 'vant';
 import { computed, ref } from 'vue'
-import { login, getCode } from '@/api/index'
+import { login, getCode } from '@/api/login/index'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
-import { getUser } from '@/api/user/index'
+import useCity from '@/hooks/getCity'
 interface Form {
   phone: string;
   password?: string;
   code?: string;
   userLoginType: number
 }
-const { setToken, setUserInfo } = useUserStore()
+const { setToken } = useUserStore()
 
 const router = useRouter()
 
@@ -57,9 +57,6 @@ const onSubmit = async () => {
     if (res.data.code == 200) {
       // setUserInfo(res.data.data)
       setToken(res.data.data)
-
-      const result = await getUser()
-      setUserInfo(result.data.data)
       router.push('/home')
     } else {
       //@ts-ignore

@@ -10,6 +10,7 @@ const active = ref(Number(route.query.type) as number)
 onMounted(async () => {
   const result = await getFansList({
     userId: route.query.userId as any,
+    pageNo:1,
   })
   console.log(result);
 })

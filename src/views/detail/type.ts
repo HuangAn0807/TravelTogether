@@ -1,5 +1,5 @@
 export type Reply = (data: { id: string, username: string }) => void
-export type ChangeLike = (count: number, icon: string) => void
+export type ChangeLike = (count: number, icon: string, isLike: boolean) => void
 // 评论表单
 export type Form = {
     rootId: string,
@@ -38,5 +38,10 @@ export type DetailForm = {
     updateTime: string,
     videoUri: string,
     visible: number
-
+    isLike: boolean
+    isCollect: boolean
+    likeCount: number
+    collectCount: number
+    commentCount: number
+    isFollow: boolean
 }

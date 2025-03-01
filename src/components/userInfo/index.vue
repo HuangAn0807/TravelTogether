@@ -1,12 +1,12 @@
 <script setup lang='ts' name=''>
+import { getUserCount } from "@/api";
 import Capsule from "../capsule/index.vue";
 import Profile from "../profile/index.vue";
 import { type User, useUserStore } from "@/stores/userStore";
-const { district } = useUserStore();
 const prop = defineProps<{
-  userInfo: User
+  userInfo: User,
+  district?: string | undefined,
 }>()
-
 </script>
 <template>
   <div>
@@ -44,11 +44,12 @@ const prop = defineProps<{
           </template>
         </Capsule>
         <!-- 所在城市 -->
-        <Capsule :text="district"></Capsule>
+        <Capsule v-if="district" :text="district"></Capsule>
       </div>
       <!-- 关注 粉丝 收藏  -->
       <slot>
-        <Profile :userId="userInfo.id" />
+        <Profile :fans-total="userInfo.fansTotal" :follow-total="userInfo.followingTotal"
+          :collect-total="userInfo.collectTotal" />
       </slot>
     </div>
 

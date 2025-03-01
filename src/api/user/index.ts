@@ -29,4 +29,11 @@ export const followuser = (params: { followUserId: number | null }) => request.g
  * @param data userId:用户id
  * @returns 
  */
-export const getFansList = (data: { userId: number | null }) => request.post('/user-relation/following/list', data)
+export const getFansList = (data: { userId: number | null, pageNo: number }) => request.post('/user-relation/following/list', data)
+
+/**
+ * 获取用户粉丝数 关注数 收藏数
+ * @param data userId:用户id
+ * @returns 
+ */
+export const getUserCount = (data: { userId: number | null }) => request.post('/count/user/getUserCount', data)

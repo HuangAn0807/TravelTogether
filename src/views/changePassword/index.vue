@@ -2,7 +2,7 @@
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import type { FieldRule } from 'vant';
-import { getCode, resetPassword } from '@/api';
+import { getCode, resetPassword } from '@/api/login';
 import { useUserStore } from '@/stores/userStore';
 const router = useRouter()
 const { setToken } = useUserStore()

@@ -32,9 +32,8 @@ export default function useCity() {
    * @param location 经纬度
    */
   async function getPlace(location: string) {
-    const res = await axios.get(`https://restapi.amap.com/v3/geocode/regeo?location=${location}&key=7527e8d695b957eed8793bb60651869a&radius=300`)
-    console.log(res.data);
-
+    const res = await axios.get(`https://restapi.amap.com/v3/geocode/regeo?location=${location}&key=d94d288dac46a0b4fe8aa5862878b1ca&radius=300`)
+    return res.data;
   }
   /**
    * 
@@ -42,7 +41,7 @@ export default function useCity() {
    * @returns 城市信息
    */
   async function getCity(code: string) {
-    const res = await axios.get(`https://restapi.amap.com/v3/config/district?keywords=${code}&subdistrict=0&key=7527e8d695b957eed8793bb60651869a`)
+    const res = await axios.get(`https://restapi.amap.com/v3/config/district?keywords=${code}&key=d94d288dac46a0b4fe8aa5862878b1ca`)
     return res.data.districts[0].name;
 
   }

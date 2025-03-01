@@ -108,7 +108,7 @@ const rules = {
                             <component :is="currentComponent"></component>
                         </KeepAlive> -->
                         <van-uploader v-model="imageList" :deletable="true" max-count="9" class="uploader"
-                            preview-size="25.8vw" />
+                            preview-size="25.8vw" :multiple="true" />
                     </van-cell-group>
                     <van-cell :title="locationInfo?.name ? locationInfo.name as string : '标记地点'" icon="location-o"
                         @click="toLocation" :rules="rules.position" />

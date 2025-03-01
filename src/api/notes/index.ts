@@ -15,7 +15,7 @@ export type Note = {
  * @param data
  * @returns
  */
-export const getNoteList = () => { }
+export const getNoteList = (data: { pageNo: number }) => request.post('/search/home', data)
 
 /**
  * 添加笔记
@@ -37,3 +37,29 @@ export const uploadFile = (data: any) => request.post('/oss/file/upload', data, 
  * @param id 笔记id
  */
 export const getNoteDetail = (data: { id: string }) => request.post(`/note/detail`, data)
+
+/**
+ * 点赞笔记
+ * @param id 笔记id
+ */
+export const likeNote = (data: { id: string }) => request.post(`/note/like`, data)
+
+/**
+ * 取消点赞笔记
+ * @param id 笔记id
+ */
+export const unlikeNote = (data: { id: string }) => request.post(`/note/unlike`, data)
+
+/**
+ * 收藏笔记
+ * @param id 笔记id
+ */
+export const collectNote = (data: { id: string }) => request.post(`/note/collect`, data)
+
+/**
+ * 取消收藏笔记
+ * @param id 笔记id
+ */
+export const unCollectNote = (data: { id: string }) => request.post(`/note/uncollect`, data)
+
+

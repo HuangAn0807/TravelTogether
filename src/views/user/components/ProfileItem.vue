@@ -1,8 +1,8 @@
 <script setup lang='ts' name=''>
-    const {text,number} = defineProps<{
-        text:string,
-        number:number
-    }>()
+defineProps<{
+  text: string,
+  number: number
+}>()
 </script>
 <template>
   <div class="follow">
@@ -11,6 +11,4 @@
   </div>
 </template>
 
-<style scoped lang='scss'>
-
-</style>
+<style scoped lang='scss'></style>

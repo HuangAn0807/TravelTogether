@@ -1,8 +1,11 @@
 export type WaterfallData = {
-    id: number
-    img: string,
-    text: string,
-    user:string,
-    userImg: string,
-    like: number
-}[]
+    noteId: string,
+    cover: string,
+    avatar: string,
+    title: string,
+    nickname: string,
+    commentTotal: string,
+    updateTime: string,
+    collectTotal: number,
+    likeTotal: number,
+}
