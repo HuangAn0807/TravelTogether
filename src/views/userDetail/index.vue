@@ -5,7 +5,7 @@ import Waterfall from '@/components/waterfall/index.vue'
 import { onMounted, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import type { User } from '@/stores/userStore'
-import { getUser } from '@/api/user/index'
+import { getUser } from '@/api/index'
 const router = useRouter()
 const route = useRoute()
 const isFollow = ref(false)
@@ -21,8 +21,12 @@ const userInfo = ref<User>({
     introduction: "",
     createTime: "",
     provincialCode: "",
-    cityCode: null,
-    province: " "
+    cityCode: "",
+    province: " ",
+    age: undefined,
+    fansTotal: 0,
+    followingTotal: 0,
+    collectTotal: 0,
 })
 const active = ref(0)
 const followChange = () => {
@@ -47,7 +51,8 @@ const fn = () => {
                 <van-icon name="arrow-left" size="6vw" class="goback" @click="goBack" />
             </template>
             <template #default>
-                <Profile :user-id="userInfo.id">
+                <Profile :fans-total="userInfo.fansTotal" :follow-total="userInfo.followingTotal"
+                    :collect-total="userInfo.collectTotal">
                     <template #default>
                         <div :class="['right', isFollow ? 'black' : 'red']" @click="followChange">
                             {{ isFollow ? '已关注' : '关注' }}

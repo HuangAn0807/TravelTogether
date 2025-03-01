@@ -2,7 +2,7 @@
 import { watchEffect, ref } from "vue";
 import UserInfo from "@/components/userInfo/index.vue";
 import Waterfall from "@/components/waterfall/index.vue";
-import { logout } from "@/api/index";
+import { logout } from "@/api/login/index";
 import { useUserStore, type User } from '@/stores/userStore'
 import useCity from '@/hooks/getCity'
 import { useRouter } from 'vue-router'
@@ -14,16 +14,32 @@ const changeShow = () => {
   show.value = !show.value
 }
 const router = useRouter()
-const { setToken, userInfo } = useUserStore()
-const { getLocation, cityInfo } = useCity()
+
+const { setToken, userInfo, setDistrict } = useUserStore()
+
+const { getLocation, cityInfo, getCity } = useCity()
 // 根据当前ip查询所在地
 getLocation()
+
 // 获取ip属地
 watchEffect(() => {
   if (cityInfo.value) {
     userInfo.province = cityInfo.value.province
   }
 })
+
+const regex = /(省|市|自治区|壮族|回族|特别行政区|维吾尔)/g;
+const district = ref('')// 显示地区
+if (userInfo.provincialCode && userInfo.cityCode) {
+  // 获取所在省份
+  getCity(userInfo.provincialCode).then((res: string) => {
+    district.value = res.replace(regex, ' ')
+    getCity(userInfo.cityCode).then((res: string) => {
+      district.value = district.value + res.replace(regex, ' ')
+      setDistrict(district.value)
+    })
+  })
+}
 
 // 退出登录
 const logOut = () => {
@@ -49,7 +65,7 @@ const fn = () => {
 </script>
 <template>
   <div class="page">
-    <UserInfo :user-info="userInfo" :is-follow="true">
+    <UserInfo :user-info="userInfo" :district="district" :is-follow="true">
       <template #setting>
         <van-icon name="setting-o" class="setting" size="6vw" @click="changeShow" />
       </template>

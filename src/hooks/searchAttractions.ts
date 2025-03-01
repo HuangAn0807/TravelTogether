@@ -18,12 +18,12 @@ export default function useSearchAttractions() {
    */
   const searchAttractions = async (city: string, num: number = 1) => {
     const params = ref({
-      key: '7527e8d695b957eed8793bb60651869a',
+      key: 'd94d288dac46a0b4fe8aa5862878b1ca',
       keywords: city,
       types: '旅游景点|风景名胜|国家级景点|省级景点|公园广场|公园|动物园|植物园|水族馆|城市广场|公园内部设施|世界遗产|纪念馆|寺庙道观|教堂|回教寺|海滩|观景点|红色景区',
       extensions: 'all',
-      page_size: '15',
-      page_index: `${num}`
+      offset: '15',
+      page: `${num}`
     })
     try {
       const response = await axios.get('https://restapi.amap.com/v3/place/text', { params: params.value });

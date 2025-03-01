@@ -14,10 +14,12 @@ export type User = {
     createTime: string,
     provincialCode: string,//省份编码
     cityCode: string //城市编码
-    province: string,//ip所在省份
+    province: string,//ip所在省份,
+    fansTotal: number,//粉丝数
+    followingTotal: number,//关注数
+    collectTotal: number,//收藏数
 }
 export const useUserStore = defineStore("user", () => {
-
     const token = ref("");
     const userInfo = ref<User>({
         id: 0,
@@ -33,7 +35,10 @@ export const useUserStore = defineStore("user", () => {
         createTime: "",
         provincialCode: "",
         cityCode: '',
-        province: " "
+        province: " ",
+        fansTotal: 0,
+        followingTotal: 0,
+        collectTotal: 0,
     });
     const district = ref("")
     const setDistrict = (value: string) => {

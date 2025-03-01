@@ -3,15 +3,48 @@ import { useRoute, useRouter } from 'vue-router';
 import Comment from './components/Comment.vue';
 import { emitter } from '@/utils/emitter';
 import { onMounted, ref } from 'vue'
-import { getNoteDetail } from '@/api/notes/index'
+import { getNoteDetail, likeNote, unlikeNote, commentList, collectNote, unCollectNote } from '@/api/index'
 import type { Reply, Form, CommentT, ChangeLike, DetailForm } from './type';
+import { useUserStore } from '@/stores/userStore';
+import useCity from '@/hooks/getCity';
+const { userInfo } = useUserStore()
 const route = useRoute();
 const router = useRouter()
+const { getPlace } = useCity()
+const city = ref('未知')
 const input = ref<HTMLInputElement | null>(null)
+// 详情数据
 const detailForm = ref<DetailForm>()
+// 是否点赞
+const isLike = ref(false)
+const isCollect = ref(false)
+// 评论内容
+const commentValue = ref('')
+// 点赞数
+const likeNum = ref(0)
+// 收藏数
+const collectNum = ref(0)
+// 关注
+const isFollow = ref(false)
+//星星图标
+const starIcon = ref('star')
+
 onMounted(async () => {
-    const res = await getNoteDetail({ id: '1890602325152628752' })
+    // 获取笔记详情
+    const res = await getNoteDetail({ id: route.query.id as string })
     detailForm.value = res.data.data as DetailForm
+    // 用户是否点过赞
+    isLike.value = detailForm.value.isLike
+    likeNum.value = detailForm.value.likeCount
+    collectNum.value = detailForm.value.collectCount
+    // 用户是否收藏过
+    isCollect.value = detailForm.value.isCollect
+    getPlace(detailForm.value.position).then((res) => {
+        city.value = res.regeocode.formatted_address
+    })
+    const result = await commentList({ noteId: route.query.id as string, pageNo: 1 })
+    console.log(result.data);
+
 })
 
 const datalist = ref<CommentT[]>([
@@ -105,22 +138,9 @@ const form = ref<Form>({
     id: ''
 
 })
-// 评论内容
-const commentValue = ref('')
-// 点赞数
-const like = ref(999)
-// 收藏数
-const collect = ref(9999)
-// 关注
-const isFollow = ref(false)
-//星星图标
-const starIcon = ref('star')
+
 
 const placeholder = ref('')
-const images = ref([
-    'https://preview.qiantucdn.com/meijing/73/20/58/46T58PICIUhqnC92dkBmI_PIC2018.jpg!qt_w320',
-    'https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg'
-])
 const goBack = () => {
     router.go(-1)
 }
@@ -144,12 +164,24 @@ emitter.on('reply', handleReply)
 const loseFocus = () => {
     placeholder.value = ''
 }
-const isLike = ref(false)
-const changeLike: ChangeLike = (count, icon) => {
+
+const changeLike: ChangeLike = async (count, icon, like) => {
     if (icon === 'like') {
-        like.value = count
+        likeNum.value = count
+        isLike.value = like
+        if (isLike.value) {
+            await likeNote({ id: route.query.id as string })
+        } else {
+            await unlikeNote({ id: route.query.id as string })
+        }
     } else if (icon === starIcon.value) {
-        collect.value = count
+        collectNum.value = count
+        isCollect.value = like
+        if (isCollect.value) {
+            await collectNote({ id: route.query.id as string })
+        } else {
+            await unCollectNote({ id: route.query.id as string })
+        }
     }
 }
 </script>
@@ -166,7 +198,8 @@ const changeLike: ChangeLike = (count, icon) => {
                 </div>
             </div>
             <div class="header-right">
-                <div :class="['right', isFollow ? 'black' : 'red']" @click="followChange">
+                <div v-if="userInfo.id !== detailForm?.creatorId" :class="['right', isFollow ? 'black' : 'red']"
+                    @click="followChange">
                     {{ isFollow ? '已关注' : '关注' }}
                 </div>
             </div>
@@ -189,11 +222,11 @@ const changeLike: ChangeLike = (count, icon) => {
                 <div class="content">
                     {{ detailForm?.content }}
                 </div>
-                <div class="date"><span>{{ detailForm?.updateTime }}</span><span>深圳</span></div>
+                <div class="date"><span>{{ detailForm?.updateTime }}</span><span>{{ city }}</span></div>
             </div>
             <div class="bottom">
                 <div class="comment-count">
-                    共有{{ '1' }}条评论
+                    共有{{ detailForm?.commentCount }}条评论
                 </div>
                 <Comment v-for="item in datalist" :key="item.id" :root-id="item.rootId" :id="item.id"
                     :parentId="item.parentId" :parentUserName="item.parentUserName" :username="item.username"
@@ -210,11 +243,12 @@ const changeLike: ChangeLike = (count, icon) => {
             <div class="right">
                 <div class="like">
                     <!-- 点赞 -->
-                    <Upvote @changeLike="changeLike" :count="like" />
+                    <Upvote @changeLike="changeLike" :like="isLike" :count="likeNum" />
                 </div>
                 <div class="collect">
                     <!-- 收藏 -->
-                    <Upvote @changeLike="changeLike" :icon="starIcon" :color="'#ffd21e'" :count="collect" />
+                    <Upvote @changeLike="changeLike" :like="isCollect" :icon="starIcon" :color="'#ffd21e'"
+                        :count="collectNum" />
                 </div>
             </div>
         </footer>

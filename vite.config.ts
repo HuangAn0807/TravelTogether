@@ -15,7 +15,9 @@ export default defineConfig({
     proxy: {
       '/api': { // 代理规则的前缀路径
         // target: 'http://192.168.2.11:88/api', // 家智
-        target: 'http://8.138.118.78:18080', // 家智
+        // target: 'http://8.138.118.78:18080', // 家智
+        target: 'http://110.41.5.200:18080', // 家智
+        // target: 'http://192.168.0.52:18080', // 家智
         changeOrigin: true, // 是否改变源，设置为true时，Vite会修改请求的Host和Origin头部
         rewrite: (path: string) => path.replace(/^\/api/, ''), // 重写请求的路径，移除前缀
       },
