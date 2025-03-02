@@ -8,7 +8,7 @@ const { cardData, arr } = defineProps<{
   cardData: WaterfallData
   arr: number[]
 }>();
-
+const divDom = ref<HTMLDivElement>()
 const card = ref<HTMLDivElement>()
 // 获取屏幕宽度
 const bodyWidth = ref(document.body.clientWidth)
@@ -36,14 +36,17 @@ const setCardPosotion = () => {
     card.value!.style.top = `${arr[minIndex.value]}px`;
     // 设置当前元素的宽度
     card.value!.style.width = `${cardWidth.value}px`;
-
     arr[minIndex.value] += card.value!.clientHeight + 10 || 0;
-  })
 
+  })
+  divDom.value!.className = 'div-dom'
 }
-setTimeout(() => {
-  setCardPosotion()
-}, 1000)
+onMounted(() => {
+  setTimeout(() => {
+    setCardPosotion()
+  }, 500)
+})
+
 // 进入详情页
 const toDetail = () => {
   router.push({
@@ -78,9 +81,15 @@ const toDetail = () => {
       </div>
     </div>
   </div>
+  <div ref="divDom"></div>
 </template>
 
 <style scoped lang='scss'>
+.div-dom {
+  min-height: 180px;
+  width: 50%;
+}
+
 .card {
   position: absolute;
   background-color: #fff;

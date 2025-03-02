@@ -17,13 +17,11 @@ const refreshing = ref(false);
 // 数据加载是否失败
 const error = ref(false)
 const data = ref<WaterfallData[]>([])
-
 onMounted(async () => {
   const res = await requestFun({ pageNo: num.value })
   if (res?.data?.code == '200') {
     data.value = res.data.data
   }
-
 })
 
 // 瀑布流布局
@@ -39,28 +37,24 @@ const loadMoreItems = () => {
       data.value.push(...res.data.data)
     }
     // 数据全部加载完成
-    if (data.value.length >= data.value.length + 5) {
+    if (data.value.length >= data.value.length) {
       finished.value = true;
     }
-
   }, 500);
 }
 // 下拉刷新数据
 const onRefresh = async () => {
-
   // 重新加载数据
+  data.value = [];
+  arr.value = [10, 10]
   finished.value = false;
-  // 将 loading 设置为 true，表示处于加载状态
-  loading.value = true;
   num.value = 1
   // 重新请求数据
-  const res = await requestFun({ pageNo: num.value })
-  // 清空列表数据
-  data.value = [];
+  const res = await requestFun({ pageNo: 1 })
   if (res?.data?.code == '200') {
+    // 清空列表数据
     data.value = res.data.data
   }
-  loading.value = false
   refreshing.value = false;
 };
 
@@ -83,7 +77,7 @@ const onRefresh = async () => {
   left: 0;
   top: 0;
   // 因为子元素使用了定位所以必须给一个最小高度否则默认高度为零，导致内容无法显示
-  height: calc(100vh - 40px);
+  min-height: 100vh;
   overflow-y: auto; // 确保内容超出时显示滚动条
   // 隐藏滚动条
   -ms-overflow-style: none;

@@ -64,10 +64,10 @@ const onRefresh = () => {
     finished.value = false
     // 重置加载完成
     loading.value = false
+    number.value = 1
     searchAttractions(search.value || cityInfo.value.city, number.value)
     // 重置加载中
     refreshing.value = false
-    // 获取当前城市的景点信息
 }
 </script>
 <template>
